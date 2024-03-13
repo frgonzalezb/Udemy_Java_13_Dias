@@ -19,6 +19,7 @@ import java.util.logging.Logger;
  *
  * @author franc
  */
+
 // DAO - Data Access Object
 public class EstudianteDAO {
     
@@ -50,7 +51,7 @@ public class EstudianteDAO {
             try {
                 conn.close();
             } catch (Exception e) {
-                System.out.println("Ocurrió un error al cerrar conexión: " + e);
+                System.out.println("Ocurrió un error al cerrar conexión: " + e.getMessage());
             }
         }
         
@@ -84,7 +85,36 @@ public class EstudianteDAO {
             try {
                 conn.close();
             } catch (Exception e) {
-                System.out.println("Ocurrió un error al cerrar conexión: " + e);
+                System.out.println("Ocurrió un error al cerrar conexión: " + e.getMessage());
+            }
+        }
+        
+        return false;
+    }
+    
+    public boolean agregarEstudiante(Estudiante estudiante) {
+        PreparedStatement ps;
+        Connection conn = DatabaseConnection.getConnection();
+        String sqlStatement = "INSERT INTO estudiante(nombre, apellido, telefono, email) "
+                            + "VALUES(?, ?, ?, ?)";
+        try {
+            ps = conn.prepareStatement(sqlStatement);
+            ps.setString(1, estudiante.getNombre());
+            ps.setString(2, estudiante.getApellido());
+            ps.setString(3, estudiante.getTelefono());
+            ps.setString(4, estudiante.getEmail());
+            ps.execute();
+            return true;
+        } catch (SQLException ex) {
+            System.out.println("Ocurrió un error al agregar: " + ex.getMessage());
+            Logger.getLogger(EstudianteDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        finally {
+            try {
+                conn.close();
+            } catch (Exception e) {
+                System.out.println("Ocurrió un error al cerrar conexión: " + e.getMessage());
             }
         }
         
