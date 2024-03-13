@@ -147,4 +147,29 @@ public class EstudianteDAO {
         return false;
     }
     
+    public boolean eliminarEstudiante(Estudiante estudiante) {
+        PreparedStatement ps;
+        Connection conn = DatabaseConnection.getConnection();
+        String sqlStatement = "DELETE FROM estudiante " 
+                            + "WHERE id_estudiante = ?;";
+        
+        try {
+            ps = conn.prepareStatement(sqlStatement);
+            ps.setInt(1, estudiante.getIdEstudiante());
+            ps.execute();
+            return true;
+        } catch (SQLException ex) {
+            System.out.println("Ocurrió un error al eliminar estudiante: " + ex.getMessage());
+            Logger.getLogger(EstudianteDAO.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            try {
+                conn.close();
+            } catch (Exception e) {
+                System.out.println("Ocurrió un error al cerrar conexión: " + e.getMessage());
+            }
+        }
+        
+        return false;
+    }
+    
 }
