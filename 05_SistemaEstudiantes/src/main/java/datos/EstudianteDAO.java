@@ -43,7 +43,7 @@ public class EstudianteDAO {
                 estudiantes.add(estudiante);
             }
         } catch (SQLException ex) {
-            System.out.println("Ocurrió un error al listar: " + ex.getMessage());
+            System.out.println("Ocurrió un error al listar estudiante: " + ex.getMessage());
             Logger.getLogger(EstudianteDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
         
@@ -77,11 +77,9 @@ public class EstudianteDAO {
                 return true;
             }
         } catch (SQLException ex) {
-            System.out.println("Ocurrió un error al buscar: " + ex.getMessage());
+            System.out.println("Ocurrió un error al buscar estudiante: " + ex.getMessage());
             Logger.getLogger(EstudianteDAO.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        
-        finally {
+        } finally {
             try {
                 conn.close();
             } catch (Exception e) {
@@ -96,7 +94,7 @@ public class EstudianteDAO {
         PreparedStatement ps;
         Connection conn = DatabaseConnection.getConnection();
         String sqlStatement = "INSERT INTO estudiante(nombre, apellido, telefono, email) "
-                            + "VALUES(?, ?, ?, ?)";
+                            + "VALUES(?, ?, ?, ?);";
         try {
             ps = conn.prepareStatement(sqlStatement);
             ps.setString(1, estudiante.getNombre());
@@ -106,11 +104,39 @@ public class EstudianteDAO {
             ps.execute();
             return true;
         } catch (SQLException ex) {
-            System.out.println("Ocurrió un error al agregar: " + ex.getMessage());
+            System.out.println("Ocurrió un error al agregar estudiante: " + ex.getMessage());
             Logger.getLogger(EstudianteDAO.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            try {
+                conn.close();
+            } catch (Exception e) {
+                System.out.println("Ocurrió un error al cerrar conexión: " + e.getMessage());
+            }
         }
         
-        finally {
+        return false;
+    }
+    
+    public boolean modificarEstudiante(Estudiante estudiante) {
+        PreparedStatement ps;
+        Connection conn = DatabaseConnection.getConnection();
+        String sqlStatement = "UPDATE estudiante " 
+                            + "SET nombre=?, apellido=?, telefono=?, email=? "
+                            + "WHERE id_estudiante = ?;";
+        
+        try {
+            ps = conn.prepareStatement(sqlStatement);
+            ps.setString(1, estudiante.getNombre());
+            ps.setString(2, estudiante.getApellido());
+            ps.setString(3, estudiante.getTelefono());
+            ps.setString(4, estudiante.getEmail());
+            ps.setInt(5, estudiante.getIdEstudiante());
+            ps.execute();
+            return true;
+        } catch (SQLException ex) {
+            System.out.println("Ocurrió un error al modificar estudiante: " + ex.getMessage());
+            Logger.getLogger(EstudianteDAO.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
             try {
                 conn.close();
             } catch (Exception e) {
