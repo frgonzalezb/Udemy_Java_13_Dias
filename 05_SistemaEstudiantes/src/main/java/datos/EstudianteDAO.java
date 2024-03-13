@@ -42,7 +42,7 @@ public class EstudianteDAO {
                 estudiantes.add(estudiante);
             }
         } catch (SQLException ex) {
-            System.out.println("Ocurrió un error: " + ex.getMessage());
+            System.out.println("Ocurrió un error al listar: " + ex.getMessage());
             Logger.getLogger(EstudianteDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
         
@@ -55,6 +55,40 @@ public class EstudianteDAO {
         }
         
         return estudiantes;
+    }
+    
+    public boolean buscarEstudiantePorId(Estudiante estudiante) {
+        PreparedStatement ps;
+        ResultSet rs;
+        Connection conn = DatabaseConnection.getConnection();
+        String sqlStatement = "SELECT * FROM estudiante WHERE id_estudiante = ?;";
+        
+        try {
+            ps = conn.prepareStatement(sqlStatement);
+            ps.setInt(1, estudiante.getIdEstudiante()); // Parámetro
+            rs = ps.executeQuery();
+            
+            if (rs.next()) {
+                estudiante.setNombre(rs.getString("nombre"));
+                estudiante.setApellido(rs.getString("apellido"));
+                estudiante.setTelefono(rs.getString("telefono")); 
+                estudiante.setEmail(rs.getString("email"));
+                return true;
+            }
+        } catch (SQLException ex) {
+            System.out.println("Ocurrió un error al buscar: " + ex.getMessage());
+            Logger.getLogger(EstudianteDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        finally {
+            try {
+                conn.close();
+            } catch (Exception e) {
+                System.out.println("Ocurrió un error al cerrar conexión: " + e);
+            }
+        }
+        
+        return false;
     }
     
 }
