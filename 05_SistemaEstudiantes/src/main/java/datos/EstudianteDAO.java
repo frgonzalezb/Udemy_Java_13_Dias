@@ -23,7 +23,7 @@ import java.util.logging.Logger;
 // DAO - Data Access Object
 public class EstudianteDAO {
     
-    public List<Estudiante> listar() {
+    public List<Estudiante> listarEstudiantes() {
         List<Estudiante> estudiantes = new ArrayList<>();
         PreparedStatement ps;   // Prepara secuencia SQL hacia BD
         ResultSet rs;           // Almacena resultado de BD

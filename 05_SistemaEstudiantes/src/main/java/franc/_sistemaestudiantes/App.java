@@ -5,6 +5,8 @@
 
 package franc._sistemaestudiantes;
 
+import presentacion.PresentacionEstudiantes;
+
 /**
  *
  * @author franc
@@ -12,6 +14,6 @@ package franc._sistemaestudiantes;
 public class App {
 
     public static void main(String[] args) {
-        System.out.println("Hello World!");
+        PresentacionEstudiantes.ejecutarPrograma();
     }
 }
