@@ -11,7 +11,7 @@
 // @Id indica claramente el atributo destinado a id
 // @GeneratedValue y GenerationType.IDENTITY son vitales para columnas id auto-incrementables!!
 
-package modelo;
+package franc._sistemaestudiantes._SistemaEstudiantes.modelo;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
