@@ -3,9 +3,11 @@ package franc.book_store.service;
 import franc.book_store.model.Book;
 import franc.book_store.repo.BookRepo;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+@Service
 public class BookService implements IBookService {
     @Autowired
     private BookRepo bookRepo;
