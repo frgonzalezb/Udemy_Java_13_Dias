@@ -1,5 +1,6 @@
 package franc.book_store.view;
 
+import franc.book_store.model.Book;
 import franc.book_store.service.BookService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -27,9 +28,7 @@ public class BookForm extends JFrame {
     public BookForm(BookService bookService) {
         this.bookService = bookService;
         initForm();
-        addBookButton.addActionListener(e -> {
-
-        });
+        addBookButton.addActionListener(e -> addBook());
     }
 
     private void initForm() {
@@ -44,16 +43,54 @@ public class BookForm extends JFrame {
         setLocation(x, y);
     }
 
-    private void createUIComponents() {
-        // bookTable
-        this.bookTableModel = new DefaultTableModel();
-        this.bookTable = new JTable(bookTableModel);
-        this.bookTableModel.addColumn("ID");
-        this.bookTableModel.addColumn("Title");
-        this.bookTableModel.addColumn("Author");
-        this.bookTableModel.addColumn("Description");
-        this.bookTableModel.addColumn("Price");
-        this.bookTableModel.addColumn("Stock");
+    private void addBook() {
+        if (bookTextField.getText().isEmpty()) {
+            showMessage("Se requiere el título del libro.");
+            bookTextField.requestFocusInWindow();
+            return;
+        }
+        if (authorTextField.getText().isEmpty()) {
+            showMessage("Se requiere el autor del libro.");
+            authorTextField.requestFocusInWindow();
+            return;
+        }
+        if (descriptionTextField.getText().isEmpty()) {
+            showMessage("Se requiere la descripción del libro.");
+            descriptionTextField.requestFocusInWindow();
+            return;
+        }
+        if (priceTextField.getText().isEmpty()) {
+            showMessage("Se requiere el precio del libro.");
+            priceTextField.requestFocusInWindow();
+            return;
+        }
+        if (stockTextField.getText().isEmpty()) {
+            showMessage("Se requiere el stock del libro.");
+            stockTextField.requestFocusInWindow();
+            return;
+        }
+        String title = bookTextField.getText();
+        String author = authorTextField.getText();
+        String description = descriptionTextField.getText();
+        double price = Double.parseDouble(priceTextField.getText());
+        int stock = Integer.parseInt(stockTextField.getText());
+
+        Book book = new Book();
+        book.setTitle(title);
+        book.setAuthor(author);
+        book.setDescription(description);
+        book.setPrice(price);
+        book.setStock(stock);
+
+        bookService.saveBook(book);
+        showMessage("Libro guardado.");
+        clearFields();
+        listBooks();
+
+    }
+
+    private void listBooks() {
+        bookTableModel.setRowCount(0);
         this.bookService.getAllBooks().forEach(book -> {
             Object[] row = new Object[6];
             row[0] = book.getId();
@@ -64,6 +101,30 @@ public class BookForm extends JFrame {
             row[5] = book.getStock();
             bookTableModel.addRow(row);
         });
+    }
 
+    private void showMessage(String message) {
+        JOptionPane.showMessageDialog(this, message);
+    }
+
+    private void clearFields() {
+        bookTextField.setText("");
+        authorTextField.setText("");
+        descriptionTextField.setText("");
+        priceTextField.setText("");
+        stockTextField.setText("");
+    }
+
+    private void createUIComponents() {
+        // bookTable
+        this.bookTableModel = new DefaultTableModel();
+        this.bookTable = new JTable(bookTableModel);
+        this.bookTableModel.addColumn("ID");
+        this.bookTableModel.addColumn("Title");
+        this.bookTableModel.addColumn("Author");
+        this.bookTableModel.addColumn("Description");
+        this.bookTableModel.addColumn("Price");
+        this.bookTableModel.addColumn("Stock");
+        listBooks();
     }
 }
