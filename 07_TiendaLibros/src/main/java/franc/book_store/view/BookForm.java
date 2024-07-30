@@ -44,31 +44,7 @@ public class BookForm extends JFrame {
     }
 
     private void addBook() {
-        if (bookTextField.getText().isEmpty()) {
-            showMessage("Se requiere el título del libro.");
-            bookTextField.requestFocusInWindow();
-            return;
-        }
-        if (authorTextField.getText().isEmpty()) {
-            showMessage("Se requiere el autor del libro.");
-            authorTextField.requestFocusInWindow();
-            return;
-        }
-        if (descriptionTextField.getText().isEmpty()) {
-            showMessage("Se requiere la descripción del libro.");
-            descriptionTextField.requestFocusInWindow();
-            return;
-        }
-        if (priceTextField.getText().isEmpty()) {
-            showMessage("Se requiere el precio del libro.");
-            priceTextField.requestFocusInWindow();
-            return;
-        }
-        if (stockTextField.getText().isEmpty()) {
-            showMessage("Se requiere el stock del libro.");
-            stockTextField.requestFocusInWindow();
-            return;
-        }
+        if (!validateFields()) return;
         String title = bookTextField.getText();
         String author = authorTextField.getText();
         String description = descriptionTextField.getText();
@@ -87,6 +63,35 @@ public class BookForm extends JFrame {
         clearFields();
         listBooks();
 
+    }
+
+    private boolean validateFields() {
+        if (bookTextField.getText().isEmpty()) {
+            showMessage("Se requiere el título del libro.");
+            bookTextField.requestFocusInWindow();
+            return false;
+        }
+        if (authorTextField.getText().isEmpty()) {
+            showMessage("Se requiere el autor del libro.");
+            authorTextField.requestFocusInWindow();
+            return false;
+        }
+        if (descriptionTextField.getText().isEmpty()) {
+            showMessage("Se requiere la descripción del libro.");
+            descriptionTextField.requestFocusInWindow();
+            return false;
+        }
+        if (priceTextField.getText().isEmpty()) {
+            showMessage("Se requiere el precio del libro.");
+            priceTextField.requestFocusInWindow();
+            return false;
+        }
+        if (stockTextField.getText().isEmpty()) {
+            showMessage("Se requiere el stock del libro.");
+            stockTextField.requestFocusInWindow();
+            return false;
+        }
+        return true;
     }
 
     private void listBooks() {
