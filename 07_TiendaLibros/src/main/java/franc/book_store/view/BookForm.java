@@ -9,6 +9,8 @@ import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.util.List;
 
 @Component
@@ -16,6 +18,7 @@ public class BookForm extends JFrame {
     private BookService bookService;
     private JPanel panel;
     private JTable bookTable;
+    private JTextField idTextField; // dummy field
     private JTextField bookTextField;
     private JTextField authorTextField;
     private JTextField descriptionTextField;
@@ -31,6 +34,15 @@ public class BookForm extends JFrame {
         this.bookService = bookService;
         initForm();
         addBookButton.addActionListener(e -> addBook());
+        editBookButton.addActionListener(e -> editBook());
+        deleteBookButton.addActionListener(e -> deleteBook());
+        bookTable.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                super.mouseClicked(e);
+                loadSelectedBook();
+            }
+        });
     }
 
     private void initForm() {
@@ -43,6 +55,20 @@ public class BookForm extends JFrame {
         int x = (screenSize.width - getWidth()) / 2;
         int y = (screenSize.height - getHeight()) / 2;
         setLocation(x, y);
+    }
+
+    private void listBooks() {
+        bookTableModel.setRowCount(0);
+        this.bookService.getAllBooks().forEach(book -> {
+            Object[] row = new Object[6];
+            row[0] = book.getId();
+            row[1] = book.getTitle();
+            row[2] = book.getAuthor();
+            row[3] = book.getDescription();
+            row[4] = book.getPrice();
+            row[5] = book.getStock();
+            bookTableModel.addRow(row);
+        });
     }
 
     private void addBook() {
@@ -64,7 +90,49 @@ public class BookForm extends JFrame {
         showMessage("Libro guardado.");
         clearFields();
         listBooks();
+    }
 
+    private void loadSelectedBook() {
+        int selectedRow = bookTable.getSelectedRow();
+        if (selectedRow == -1) return;
+        int id = Integer.parseInt(bookTable.getValueAt(selectedRow, 0).toString());
+        Book book = bookService.getBookById(id);
+        if (book == null) return;
+        idTextField.setText(String.valueOf(book.getId()));
+        bookTextField.setText(book.getTitle());
+        authorTextField.setText(book.getAuthor());
+        descriptionTextField.setText(book.getDescription());
+        priceTextField.setText(String.valueOf(book.getPrice()));
+        stockTextField.setText(String.valueOf(book.getStock()));
+    }
+
+    private void editBook() {
+        if (!validateFields()) return;
+        int id = Integer.parseInt(idTextField.getText());
+        Book book = new Book();
+        book.setId(id);
+        book.setTitle(bookTextField.getText());
+        book.setAuthor(authorTextField.getText());
+        book.setDescription(descriptionTextField.getText());
+        book.setPrice(Double.parseDouble(priceTextField.getText()));
+        book.setStock(Integer.parseInt(stockTextField.getText()));
+        bookService.saveBook(book);
+        showMessage("Libro editado.");
+        clearFields();
+        listBooks();
+    }
+
+    private void deleteBook() {
+        int selectedRow = bookTable.getSelectedRow();
+        if (selectedRow == -1) {
+            showMessage("Debe seleccionar un libro.");
+            return;
+        }
+        int id = Integer.parseInt(bookTable.getValueAt(selectedRow, 0).toString());
+        bookService.deleteBook(id);
+        showMessage("Libro eliminado.");
+        clearFields();
+        listBooks();
     }
 
     private boolean validateFields() {
@@ -94,25 +162,12 @@ public class BookForm extends JFrame {
         return true;
     }
 
-    private void listBooks() {
-        bookTableModel.setRowCount(0);
-        this.bookService.getAllBooks().forEach(book -> {
-            Object[] row = new Object[6];
-            row[0] = book.getId();
-            row[1] = book.getTitle();
-            row[2] = book.getAuthor();
-            row[3] = book.getDescription();
-            row[4] = book.getPrice();
-            row[5] = book.getStock();
-            bookTableModel.addRow(row);
-        });
-    }
-
     private void showMessage(String message) {
         JOptionPane.showMessageDialog(this, message);
     }
 
     private void clearFields() {
+        idTextField.setText("");
         bookTextField.setText("");
         authorTextField.setText("");
         descriptionTextField.setText("");
@@ -121,6 +176,9 @@ public class BookForm extends JFrame {
     }
 
     private void createUIComponents() {
+        // hidden id field for retrieving book data
+        idTextField = new JTextField();
+        idTextField.setVisible(false);
         // bookTable
         this.bookTableModel = new DefaultTableModel();
         this.bookTable = new JTable(bookTableModel);
