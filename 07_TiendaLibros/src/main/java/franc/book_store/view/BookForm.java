@@ -13,12 +13,23 @@ public class BookForm extends JFrame {
     private BookService bookService;
     private JPanel panel;
     private JTable bookTable;
+    private JTextField bookTextField;
+    private JTextField authorTextField;
+    private JTextField descriptionTextField;
+    private JTextField priceTextField;
+    private JTextField stockTextField;
+    private JButton addBookButton;
+    private JButton editBookButton;
+    private JButton deleteBookButton;
     private DefaultTableModel bookTableModel;
 
     @Autowired
     public BookForm(BookService bookService) {
         this.bookService = bookService;
         initForm();
+        addBookButton.addActionListener(e -> {
+
+        });
     }
 
     private void initForm() {
