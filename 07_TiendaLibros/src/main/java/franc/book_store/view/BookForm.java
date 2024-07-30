@@ -34,7 +34,7 @@ public class BookForm extends JFrame {
     }
 
     private void createUIComponents() {
-        // TODO: place custom component creation code here
+        // bookTable
         this.bookTableModel = new DefaultTableModel();
         this.bookTable = new JTable(bookTableModel);
         this.bookTableModel.addColumn("ID");
