@@ -9,6 +9,8 @@ import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 
+import java.util.List;
+
 @Component
 public class BookForm extends JFrame {
     private BookService bookService;
@@ -66,30 +68,28 @@ public class BookForm extends JFrame {
     }
 
     private boolean validateFields() {
-        if (bookTextField.getText().isEmpty()) {
-            showMessage("Se requiere el título del libro.");
-            bookTextField.requestFocusInWindow();
-            return false;
-        }
-        if (authorTextField.getText().isEmpty()) {
-            showMessage("Se requiere el autor del libro.");
-            authorTextField.requestFocusInWindow();
-            return false;
-        }
-        if (descriptionTextField.getText().isEmpty()) {
-            showMessage("Se requiere la descripción del libro.");
-            descriptionTextField.requestFocusInWindow();
-            return false;
-        }
-        if (priceTextField.getText().isEmpty()) {
-            showMessage("Se requiere el precio del libro.");
-            priceTextField.requestFocusInWindow();
-            return false;
-        }
-        if (stockTextField.getText().isEmpty()) {
-            showMessage("Se requiere el stock del libro.");
-            stockTextField.requestFocusInWindow();
-            return false;
+        List<JTextField> fields = List.of(
+                bookTextField,
+                authorTextField,
+                descriptionTextField,
+                priceTextField,
+                stockTextField
+        );
+        List<String> fieldNames = List.of(
+                "título del libro",
+                "autor del libro",
+                "descripción del libro",
+                "precio del libro",
+                "stock del libro"
+        );
+
+        for (int i = 0; i < fields.size(); i++) {
+            JTextField field = fields.get(i);
+            if (field.getText().isEmpty()) {
+                showMessage(String.format("Se requiere el %s.", fieldNames.get(i)));
+                field.requestFocusInWindow();
+                return false;
+            }
         }
         return true;
     }
@@ -125,10 +125,10 @@ public class BookForm extends JFrame {
         this.bookTableModel = new DefaultTableModel();
         this.bookTable = new JTable(bookTableModel);
         this.bookTableModel.addColumn("ID");
-        this.bookTableModel.addColumn("Title");
-        this.bookTableModel.addColumn("Author");
-        this.bookTableModel.addColumn("Description");
-        this.bookTableModel.addColumn("Price");
+        this.bookTableModel.addColumn("Título");
+        this.bookTableModel.addColumn("Autor");
+        this.bookTableModel.addColumn("Descripción");
+        this.bookTableModel.addColumn("Precio");
         this.bookTableModel.addColumn("Stock");
         listBooks();
     }
