@@ -192,8 +192,14 @@ public class BookForm extends JFrame {
         idTextField = new JTextField();
         idTextField.setVisible(false);
         // bookTable
-        this.bookTableModel = new DefaultTableModel();
+        this.bookTableModel = new DefaultTableModel() {
+            @Override
+            public boolean isCellEditable(int row, int column) {
+                return false;
+            }
+        };
         this.bookTable = new JTable(bookTableModel);
+        bookTable.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         this.bookTableModel.addColumn("ID");
         this.bookTableModel.addColumn("Título");
         this.bookTableModel.addColumn("Autor");
