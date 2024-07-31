@@ -26,9 +26,4 @@ public class BookService implements IBookService {
     public void saveBook(Book book) {
         bookRepo.save(book);
     }
-
-    @Override
-    public void deleteBook(int id) {
-        bookRepo.deleteById(id);
-    }
 }

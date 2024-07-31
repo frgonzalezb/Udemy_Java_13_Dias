@@ -22,4 +22,5 @@ public class Book {
     private String description;
     private double price;
     private int stock;
+    private boolean isDeleted;
 }

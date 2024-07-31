@@ -25,6 +25,7 @@ public class BookForm extends JFrame {
     private JTextField descriptionTextField;
     private JTextField priceTextField;
     private JTextField stockTextField;
+    private JTextField isDeletedTextField; // dummy field
     private JButton addBookButton;
     private JButton editBookButton;
     private JButton deleteBookButton;
@@ -61,6 +62,7 @@ public class BookForm extends JFrame {
     private void listBooks() {
         bookTableModel.setRowCount(0);
         this.bookService.getAllBooks().forEach(book -> {
+            if (book.isDeleted()) return;
             Object[] row = new Object[6];
             row[0] = book.getId();
             row[1] = book.getTitle();
@@ -79,6 +81,7 @@ public class BookForm extends JFrame {
         String description = descriptionTextField.getText();
         double price = Double.parseDouble(priceTextField.getText());
         int stock = Integer.parseInt(stockTextField.getText());
+        boolean isDeleted = false;
 
         Book book = new Book();
         book.setTitle(title);
@@ -86,6 +89,7 @@ public class BookForm extends JFrame {
         book.setDescription(description);
         book.setPrice(price);
         book.setStock(stock);
+        book.setDeleted(isDeleted);
 
         bookService.saveBook(book);
         showMessage("Libro guardado.");
@@ -105,9 +109,15 @@ public class BookForm extends JFrame {
         descriptionTextField.setText(book.getDescription());
         priceTextField.setText(String.valueOf(book.getPrice()));
         stockTextField.setText(String.valueOf(book.getStock()));
+        isDeletedTextField.setText(String.valueOf(book.isDeleted()));
     }
 
     private void editBook() {
+        int selectedRow = bookTable.getSelectedRow();
+        if (selectedRow == -1) {
+            showMessage("Debe seleccionar un libro.");
+            return;
+        }
         if (!validateFields()) return;
         int id = Integer.parseInt(idTextField.getText());
         Book book = new Book();
@@ -117,6 +127,7 @@ public class BookForm extends JFrame {
         book.setDescription(descriptionTextField.getText());
         book.setPrice(Double.parseDouble(priceTextField.getText()));
         book.setStock(Integer.parseInt(stockTextField.getText()));
+        book.setDeleted(false);
         bookService.saveBook(book);
         showMessage("Libro editado.");
         clearFields();
@@ -124,17 +135,41 @@ public class BookForm extends JFrame {
     }
 
     private void deleteBook() {
+        /*
+        NOTA: El código original habilitaba la eliminación dura de las instancias
+        en la BD, así que he comentado el código original y he decidido implementar
+        aquí una eliminación suave (la instancia sigue existiendo en la base de datos).
+        */
         int selectedRow = bookTable.getSelectedRow();
         if (selectedRow == -1) {
             showMessage("Debe seleccionar un libro.");
             return;
         }
         if (!confirmDeleteBook()) return;
-        int id = Integer.parseInt(bookTable.getValueAt(selectedRow, 0).toString());
-        bookService.deleteBook(id);
+        int id = Integer.parseInt(idTextField.getText());
+        Book book = new Book();
+        book.setId(id);
+        book.setTitle(bookTextField.getText());
+        book.setAuthor(authorTextField.getText());
+        book.setDescription(descriptionTextField.getText());
+        book.setPrice(Double.parseDouble(priceTextField.getText()));
+        book.setStock(Integer.parseInt(stockTextField.getText()));
+        book.setDeleted(true);
+        bookService.saveBook(book);
         showMessage("Libro eliminado.");
         clearFields();
         listBooks();
+//        int selectedRow = bookTable.getSelectedRow();
+//        if (selectedRow == -1) {
+//            showMessage("Debe seleccionar un libro.");
+//            return;
+//        }
+//        if (!confirmDeleteBook()) return;
+//        int id = Integer.parseInt(bookTable.getValueAt(selectedRow, 0).toString());
+//        bookService.deleteBook(id);
+//        showMessage("Libro eliminado.");
+//        clearFields();
+//        listBooks();
     }
 
     private boolean confirmDeleteBook() {
@@ -185,12 +220,16 @@ public class BookForm extends JFrame {
         descriptionTextField.setText("");
         priceTextField.setText("");
         stockTextField.setText("");
+        isDeletedTextField.setText("");
     }
 
     private void createUIComponents() {
         // hidden id field for retrieving book data
         idTextField = new JTextField();
         idTextField.setVisible(false);
+        // hidden isDeleted field for retrieving book data
+        isDeletedTextField = new JTextField();
+        isDeletedTextField.setVisible(false);
         // bookTable
         this.bookTableModel = new DefaultTableModel() {
             @Override
