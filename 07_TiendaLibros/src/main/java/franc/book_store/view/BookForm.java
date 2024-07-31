@@ -75,7 +75,8 @@ public class BookForm extends JFrame {
     }
 
     private void addBook() {
-        if (!validateFields()) return;
+        if (!requireFields()) return;
+        if (!validatePrice()) return;
         String title = bookTextField.getText();
         String author = authorTextField.getText();
         String description = descriptionTextField.getText();
@@ -118,7 +119,7 @@ public class BookForm extends JFrame {
             showMessage("Debe seleccionar un libro.");
             return;
         }
-        if (!validateFields()) return;
+        if (!requireFields()) return;
         int id = Integer.parseInt(idTextField.getText());
         Book book = new Book();
         book.setId(id);
@@ -156,7 +157,7 @@ public class BookForm extends JFrame {
         book.setStock(Integer.parseInt(stockTextField.getText()));
         book.setDeleted(true);
         bookService.saveBook(book);
-        showMessage("Libro eliminado.");
+        showMessage("Libro eliminado.\nSi desea recuperar la entrada, contacte al administrador.");
         clearFields();
         listBooks();
 //        int selectedRow = bookTable.getSelectedRow();
@@ -182,7 +183,7 @@ public class BookForm extends JFrame {
         return option == JOptionPane.YES_OPTION;
     }
 
-    private boolean validateFields() {
+    private boolean requireFields() {
         List<JTextField> fields = List.of(
                 bookTextField,
                 authorTextField,
@@ -205,6 +206,17 @@ public class BookForm extends JFrame {
                 field.requestFocusInWindow();
                 return false;
             }
+        }
+        return true;
+    }
+
+    private boolean validatePrice() {
+        String price = priceTextField.getText();
+        if (!price.matches("\\d+(\\.\\d+)?")) {
+            showMessage("El precio debe ser un número.");
+            priceTextField.requestFocusInWindow();
+            priceTextField.setText("0.0");
+            return false;
         }
         return true;
     }
