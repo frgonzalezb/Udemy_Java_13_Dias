@@ -36,6 +36,5 @@ public class Task {
     @Column(name = "deadline", columnDefinition = "TIMESTAMP")
     private LocalDateTime deadline;
 
-    private boolean isDone;
     private boolean isDeleted;
 }
