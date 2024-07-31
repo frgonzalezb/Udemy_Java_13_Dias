@@ -77,6 +77,7 @@ public class BookForm extends JFrame {
     private void addBook() {
         if (!requireFields()) return;
         if (!validatePrice()) return;
+        if (!validateStock()) return;
         String title = bookTextField.getText();
         String author = authorTextField.getText();
         String description = descriptionTextField.getText();
@@ -120,6 +121,8 @@ public class BookForm extends JFrame {
             return;
         }
         if (!requireFields()) return;
+        if (!validatePrice()) return;
+        if (!validateStock()) return;
         int id = Integer.parseInt(idTextField.getText());
         Book book = new Book();
         book.setId(id);
@@ -176,7 +179,7 @@ public class BookForm extends JFrame {
     private boolean confirmDeleteBook() {
         int option = JOptionPane.showConfirmDialog(
                 this,
-                "¿Desea eliminar el libro?",
+                "¿Desea eliminar el libro? Esta acción no se puede deshacer.",
                 "Confirmar eliminación",
                 JOptionPane.YES_NO_OPTION
         );
@@ -213,13 +216,7 @@ public class BookForm extends JFrame {
     private boolean validatePrice() {
         String price = priceTextField.getText();
         if (!price.matches("\\d+(\\.\\d+)?")) {
-            showMessage("El precio debe ser un número.");
-            priceTextField.requestFocusInWindow();
-            priceTextField.setText("0.0");
-            return false;
-        }
-        if (Double.parseDouble(price) < 0) {
-            showMessage("El precio no puede ser negativo.");
+            showMessage("El precio debe ser un número no negativo.");
             priceTextField.requestFocusInWindow();
             priceTextField.setText("0.0");
             return false;
@@ -228,6 +225,23 @@ public class BookForm extends JFrame {
             showMessage("El precio de un libro no puede ser mayor que 100000000.");
             priceTextField.requestFocusInWindow();
             priceTextField.setText("0.0");
+            return false;
+        }
+        return true;
+    }
+
+    private boolean validateStock() {
+        String stock = stockTextField.getText();
+        if (!stock.matches("\\d+")) {
+            showMessage("El stock debe ser un número entero no negativo.");
+            stockTextField.requestFocusInWindow();
+            stockTextField.setText("0");
+            return false;
+        }
+        if (Integer.parseInt(stock) > 1000000) {
+            showMessage("El stock de un libro no puede ser mayor que 1000000.");
+            stockTextField.requestFocusInWindow();
+            stockTextField.setText("0");
             return false;
         }
         return true;
