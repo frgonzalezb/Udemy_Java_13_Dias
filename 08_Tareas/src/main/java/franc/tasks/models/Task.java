@@ -6,6 +6,8 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
 import jakarta.persistence.Column;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -24,8 +26,12 @@ public class Task {
     private String title;
     private String workerInCharge;
     private String description;
-    private String priority;
-    private String status;
+
+    @Enumerated(EnumType.STRING)
+    private Priority priority;
+
+    @Enumerated(EnumType.STRING)
+    private Status status;
 
     @Column(name = "deadline", columnDefinition = "TIMESTAMP")
     private LocalDateTime deadline;
