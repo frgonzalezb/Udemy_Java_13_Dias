@@ -218,6 +218,18 @@ public class BookForm extends JFrame {
             priceTextField.setText("0.0");
             return false;
         }
+        if (Double.parseDouble(price) < 0) {
+            showMessage("El precio no puede ser negativo.");
+            priceTextField.requestFocusInWindow();
+            priceTextField.setText("0.0");
+            return false;
+        }
+        if (Double.parseDouble(price) > 100000000) {
+            showMessage("El precio de un libro no puede ser mayor que 100000000.");
+            priceTextField.requestFocusInWindow();
+            priceTextField.setText("0.0");
+            return false;
+        }
         return true;
     }
 
@@ -255,7 +267,7 @@ public class BookForm extends JFrame {
         this.bookTableModel.addColumn("Título");
         this.bookTableModel.addColumn("Autor");
         this.bookTableModel.addColumn("Descripción");
-        this.bookTableModel.addColumn("Precio");
+        this.bookTableModel.addColumn("Precio (CLP)");
         this.bookTableModel.addColumn("Stock");
         listBooks();
     }
