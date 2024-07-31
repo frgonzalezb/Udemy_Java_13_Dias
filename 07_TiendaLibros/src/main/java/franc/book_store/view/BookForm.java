@@ -9,6 +9,7 @@ import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 
+import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.List;
@@ -128,11 +129,22 @@ public class BookForm extends JFrame {
             showMessage("Debe seleccionar un libro.");
             return;
         }
+        if (!confirmDeleteBook()) return;
         int id = Integer.parseInt(bookTable.getValueAt(selectedRow, 0).toString());
         bookService.deleteBook(id);
         showMessage("Libro eliminado.");
         clearFields();
         listBooks();
+    }
+
+    private boolean confirmDeleteBook() {
+        int option = JOptionPane.showConfirmDialog(
+                this,
+                "¿Desea eliminar el libro?",
+                "Confirmar eliminación",
+                JOptionPane.YES_NO_OPTION
+        );
+        return option == JOptionPane.YES_OPTION;
     }
 
     private boolean validateFields() {
