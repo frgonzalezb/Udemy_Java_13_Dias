@@ -45,6 +45,7 @@ public class IndexController implements Initializable {
     public void initialize(URL url, ResourceBundle resourceBundle) {
         taskTable.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
         configColumns();
+        listTasks();
     }
 
     private void configColumns() {
@@ -54,5 +55,11 @@ public class IndexController implements Initializable {
         priorityCol.setCellValueFactory(new PropertyValueFactory<>("priority"));
         statusCol.setCellValueFactory(new PropertyValueFactory<>("status"));
     }
+
+    private void listTasks() {
+        logger.info("List tasks");
+        tasks.clear();
+        tasks.addAll(taskService.listTasks());
+        taskTable.setItems(tasks);
     }
 }
