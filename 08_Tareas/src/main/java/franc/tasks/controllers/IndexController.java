@@ -16,7 +16,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.net.URL;
+import java.util.List;
 import java.util.ResourceBundle;
+import java.util.stream.Collectors;
 
 @Component
 public class IndexController implements Initializable {
@@ -59,7 +61,13 @@ public class IndexController implements Initializable {
     private void listTasks() {
         logger.info("List tasks");
         tasks.clear();
-        tasks.addAll(taskService.listTasks());
+        // Fetch all tasks and filter out the ones with isDeleted set to true
+        List<Task> activeTasks = taskService.listTasks()
+                .stream()
+                .filter(task -> !task.isDeleted())
+                .toList();
+
+        tasks.addAll(activeTasks);
         taskTable.setItems(tasks);
     }
 }
