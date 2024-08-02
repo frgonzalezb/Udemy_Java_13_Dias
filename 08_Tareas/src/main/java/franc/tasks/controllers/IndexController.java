@@ -100,7 +100,6 @@ public class IndexController implements Initializable {
     }
 
     private void listTasks() {
-        logger.info("List tasks");
         tasks.clear();
         // Fetch all tasks and filter out the ones with isDeleted set to true
         List<Task> activeTasks = taskService.listTasks()
@@ -110,6 +109,7 @@ public class IndexController implements Initializable {
 
         tasks.addAll(activeTasks);
         taskTable.setItems(tasks);
+        logger.info("All tasks have been listed.");
     }
 
     public void addTask() {
@@ -130,15 +130,14 @@ public class IndexController implements Initializable {
         newTask.setDeleted(false);
 
         taskService.saveTask(newTask);
+        logger.info("Task created: {}", newTask);
+        showInformationMessage("Información", "Tarea creada.");
         listTasks();
     }
 
     public void loadTaskToForm() {
         var task = taskTable.getSelectionModel().getSelectedItem();
         if (task == null) {
-//            logger.warn("Please select a task before editing it!");
-//            showErrorMessage("Error", "Por favor, selecciona una tarea para modificarla.");
-//            taskTable.requestFocus();
             return;
         }
         selectedTaskId = task.getId();
@@ -146,6 +145,7 @@ public class IndexController implements Initializable {
         workerTextField.setText(task.getWorkerInCharge());
         priorityComboBox.getSelectionModel().select(TranslationUtil.getTranslatedPriority(task.getPriority()));
         statusComboBox.getSelectionModel().select(TranslationUtil.getTranslatedStatus(task.getStatus()));
+        logger.info("The selected task {} has been loaded to the form.", task);
     }
 
     public void editTask(ActionEvent actionEvent) {
@@ -160,6 +160,7 @@ public class IndexController implements Initializable {
         workerTextField.clear();
         priorityComboBox.getSelectionModel().clearSelection();
         statusComboBox.getSelectionModel().clearSelection();
+        logger.info("Form has been cleared.");
     }
 
     private boolean validateFields(String title, String worker, Priority priority, Status status) {
@@ -190,6 +191,14 @@ public class IndexController implements Initializable {
         return true;
     }
 
+    public void showInformationMessage(String title, String message) {
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle(title);
+        alert.setHeaderText(null);
+        alert.setContentText(message);
+        alert.showAndWait();
+    }
+
     public void showErrorMessage(String title, String message) {
         Alert alert = new Alert(Alert.AlertType.ERROR);
         alert.setTitle(title);
@@ -197,6 +206,4 @@ public class IndexController implements Initializable {
         alert.setContentText(message);
         alert.showAndWait();
     }
-
-
 }
