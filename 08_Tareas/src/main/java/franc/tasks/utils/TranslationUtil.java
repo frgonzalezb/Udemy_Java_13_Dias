@@ -18,8 +18,8 @@ public class TranslationUtil {
 
         statusTranslations.put(Status.OPEN, "Pendiente");
         statusTranslations.put(Status.IN_PROGRESS, "En Progreso");
-        statusTranslations.put(Status.COMPLETED, "Completado");
-        statusTranslations.put(Status.CANCELLED, "Cancelado");
+        statusTranslations.put(Status.COMPLETED, "Completada");
+        statusTranslations.put(Status.CANCELLED, "Cancelada");
     }
 
     public static String getTranslatedPriority(Priority priority) {
