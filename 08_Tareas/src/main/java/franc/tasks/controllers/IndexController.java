@@ -184,7 +184,27 @@ public class IndexController implements Initializable {
         listTasks();
     }
 
-    public void deleteTask(ActionEvent actionEvent) {
+    public void deleteTask() {
+        if (selectedTaskId == null) {
+            logger.warn("Please select a task before deleting it!");
+            showErrorMessage("Error", "Por favor, selecciona una tarea antes de eliminarla.");
+            taskTable.requestFocus();
+            return;
+        }
+        Task task = taskService.getTask(selectedTaskId);
+        if (task == null) {
+            return;
+        }
+        if(!showConfirmationMessage("Confirmar", "¿Seguro que quieres borrar esta tarea?")) {
+            logger.info("Task deletion has been cancelled.");
+            return;
+        }
+        task.setDeleted(true);
+        taskService.saveTask(task);
+        logger.info("Task deleted: {}", task);
+        showInformationMessage("Información", "Tarea eliminada.");
+        clearForm();
+        listTasks();
     }
 
     public void clearForm() {
@@ -238,5 +258,13 @@ public class IndexController implements Initializable {
         alert.setHeaderText(null);
         alert.setContentText(message);
         alert.showAndWait();
+    }
+
+    public boolean showConfirmationMessage(String title, String message) {
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        alert.setTitle(title);
+        alert.setHeaderText(null);
+        alert.setContentText(message);
+        return alert.showAndWait().get() == ButtonType.OK;
     }
 }
