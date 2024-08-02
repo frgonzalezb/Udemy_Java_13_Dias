@@ -5,6 +5,7 @@ import franc.tasks.models.Status;
 import franc.tasks.models.Task;
 import franc.tasks.services.TaskService;
 
+import franc.tasks.utils.TranslationUtil;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -19,8 +20,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.net.URL;
+import java.util.Arrays;
 import java.util.List;
 import java.util.ResourceBundle;
+import java.util.stream.Collectors;
 
 @Component
 public class IndexController implements Initializable {
@@ -70,8 +73,21 @@ public class IndexController implements Initializable {
     }
 
     private void populateComboBoxes() {
-        priorityComboBox.setItems(FXCollections.observableArrayList(Priority.values()));
-        statusComboBox.setItems(FXCollections.observableArrayList(Status.values()));
+//        priorityComboBox.setItems(FXCollections.observableArrayList(Priority.values()));
+//        statusComboBox.setItems(FXCollections.observableArrayList(Status.values()));
+        ObservableList<String> priorityItems = FXCollections.observableArrayList(
+                Arrays.stream(Priority.values())
+                        .map(TranslationUtil::getTranslatedPriority)
+                        .collect(Collectors.toList())
+        );
+        priorityComboBox.setItems(priorityItems);
+
+        ObservableList<String> statusItems = FXCollections.observableArrayList(
+                Arrays.stream(Status.values())
+                        .map(TranslationUtil::getTranslatedStatus)
+                        .collect(Collectors.toList())
+        );
+        statusComboBox.setItems(statusItems);
     }
 
     private void listTasks() {
@@ -90,8 +106,10 @@ public class IndexController implements Initializable {
     public void addTask() {
         String title = titleTextField.getText();
         String worker = workerTextField.getText();
-        Priority priority = (Priority) priorityComboBox.getValue();
-        Status status = (Status) statusComboBox.getValue();
+        String selectedPriorityTranslation = (String) priorityComboBox.getValue();
+        Priority priority = TranslationUtil.getPriorityFromTranslation(selectedPriorityTranslation);
+        String selectedStatusTranslation = (String) statusComboBox.getValue();
+        Status status = TranslationUtil.getStatusFromTranslation(selectedStatusTranslation);
 
         if (!validateFields(title, worker, priority, status)) return;
 
