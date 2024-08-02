@@ -15,6 +15,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 
+import javafx.scene.input.MouseEvent;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -57,6 +58,8 @@ public class IndexController implements Initializable {
 
     private final ObservableList<Task> tasks = FXCollections.observableArrayList();
 
+    private Long selectedTaskId; // hidden for the user
+
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         taskTable.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
@@ -81,8 +84,6 @@ public class IndexController implements Initializable {
     }
 
     private void populateComboBoxes() {
-//        priorityComboBox.setItems(FXCollections.observableArrayList(Priority.values()));
-//        statusComboBox.setItems(FXCollections.observableArrayList(Status.values()));
         ObservableList<String> priorityItems = FXCollections.observableArrayList(
                 Arrays.stream(Priority.values())
                         .map(TranslationUtil::getTranslatedPriority)
@@ -132,16 +133,29 @@ public class IndexController implements Initializable {
         listTasks();
     }
 
+    public void loadTaskToForm() {
+        var task = taskTable.getSelectionModel().getSelectedItem();
+        if (task == null) {
+//            logger.warn("Please select a task before editing it!");
+//            showErrorMessage("Error", "Por favor, selecciona una tarea para modificarla.");
+//            taskTable.requestFocus();
+            return;
+        }
+        selectedTaskId = task.getId();
+        titleTextField.setText(task.getTitle());
+        workerTextField.setText(task.getWorkerInCharge());
+        priorityComboBox.getSelectionModel().select(TranslationUtil.getTranslatedPriority(task.getPriority()));
+        statusComboBox.getSelectionModel().select(TranslationUtil.getTranslatedStatus(task.getStatus()));
+    }
+
     public void editTask(ActionEvent actionEvent) {
     }
 
     public void deleteTask(ActionEvent actionEvent) {
     }
 
-    public void clearForm(ActionEvent actionEvent) {
-    }
-
     public void clearForm() {
+        selectedTaskId = null;
         titleTextField.clear();
         workerTextField.clear();
         priorityComboBox.getSelectionModel().clearSelection();
@@ -183,4 +197,6 @@ public class IndexController implements Initializable {
         alert.setContentText(message);
         alert.showAndWait();
     }
+
+
 }

@@ -41,7 +41,7 @@
             </font>
         </Label>
         <Pane fx:id="tablePane" prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="4" GridPane.columnSpan="7" GridPane.rowIndex="3" GridPane.rowSpan="6">
-            <TableView fx:id="taskTable" prefHeight="249.0" prefWidth="560.0">
+            <TableView fx:id="taskTable" onMouseClicked="#loadTaskToForm" prefHeight="249.0" prefWidth="560.0">
                 <columns>
                     <TableColumn fx:id="idCol" prefWidth="75.0" text="ID" />
                     <TableColumn fx:id="titleCol" prefWidth="75.0" text="Tarea" />
