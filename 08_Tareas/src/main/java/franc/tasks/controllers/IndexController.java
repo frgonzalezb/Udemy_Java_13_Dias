@@ -6,6 +6,7 @@ import franc.tasks.models.Task;
 import franc.tasks.services.TaskService;
 
 import franc.tasks.utils.TranslationUtil;
+import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -68,8 +69,15 @@ public class IndexController implements Initializable {
         idCol.setCellValueFactory(new PropertyValueFactory<>("id"));
         titleCol.setCellValueFactory(new PropertyValueFactory<>("title"));
         workerCol.setCellValueFactory(new PropertyValueFactory<>("workerInCharge"));
-        priorityCol.setCellValueFactory(new PropertyValueFactory<>("priority"));
-        statusCol.setCellValueFactory(new PropertyValueFactory<>("status"));
+        priorityCol.setCellValueFactory(cellData -> {
+            Task task = cellData.getValue();
+            return new SimpleStringProperty(TranslationUtil.getTranslatedPriority(task.getPriority()));
+        });
+
+        statusCol.setCellValueFactory(cellData -> {
+            Task task = cellData.getValue();
+            return new SimpleStringProperty(TranslationUtil.getTranslatedStatus(task.getStatus()));
+        });
     }
 
     private void populateComboBoxes() {

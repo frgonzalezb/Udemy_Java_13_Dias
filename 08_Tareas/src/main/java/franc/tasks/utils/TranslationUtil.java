@@ -11,10 +11,10 @@ public class TranslationUtil {
     private static final Map<Status, String> statusTranslations = new HashMap<>();
 
     static {
-        priorityTranslations.put(Priority.LOW, "Bajo");
-        priorityTranslations.put(Priority.MEDIUM, "Medio");
-        priorityTranslations.put(Priority.HIGH, "Alto");
-        priorityTranslations.put(Priority.CRITICAL, "Crítico");
+        priorityTranslations.put(Priority.LOW, "Baja");
+        priorityTranslations.put(Priority.MEDIUM, "Media");
+        priorityTranslations.put(Priority.HIGH, "Alta");
+        priorityTranslations.put(Priority.CRITICAL, "Crítica");
 
         statusTranslations.put(Status.OPEN, "Pendiente");
         statusTranslations.put(Status.IN_PROGRESS, "En Progreso");
