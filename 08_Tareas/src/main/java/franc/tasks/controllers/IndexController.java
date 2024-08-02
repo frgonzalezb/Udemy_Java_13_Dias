@@ -113,6 +113,12 @@ public class IndexController implements Initializable {
     }
 
     public void addTask() {
+        if (selectedTaskId != null) {
+            logger.warn("Please clear the form before adding a new task!");
+            showErrorMessage("Error", "Por favor, limpia el formulario antes de agregar una nueva tarea.");
+            ClearFormButton.requestFocus();
+            return;
+        }
         String title = titleTextField.getText();
         String worker = workerTextField.getText();
         String selectedPriorityTranslation = (String) priorityComboBox.getValue();
@@ -132,6 +138,7 @@ public class IndexController implements Initializable {
         taskService.saveTask(newTask);
         logger.info("Task created: {}", newTask);
         showInformationMessage("Información", "Tarea creada.");
+        clearForm();
         listTasks();
     }
 
@@ -148,7 +155,33 @@ public class IndexController implements Initializable {
         logger.info("The selected task {} has been loaded to the form.", task);
     }
 
-    public void editTask(ActionEvent actionEvent) {
+    public void editTask() {
+        if (selectedTaskId == null) {
+            logger.warn("Please select a task before editing it!");
+            showErrorMessage("Error", "Por favor, selecciona una tarea antes de editarla.");
+            taskTable.requestFocus();
+            return;
+        }
+        Task task = taskService.getTask(selectedTaskId);
+        if (task == null) {
+            return;
+        }
+        String title = titleTextField.getText();
+        String worker = workerTextField.getText();
+        Priority priority = TranslationUtil.getPriorityFromTranslation((String) priorityComboBox.getValue());
+        Status status = TranslationUtil.getStatusFromTranslation((String) statusComboBox.getValue());
+
+        if (!validateFields(title, worker, priority, status)) return;
+
+        task.setTitle(title);
+        task.setWorkerInCharge(worker);
+        task.setPriority(priority);
+        task.setStatus(status);
+        taskService.saveTask(task);
+        logger.info("Task edited: {}", task);
+        showInformationMessage("Información", "Tarea editada.");
+        clearForm();
+        listTasks();
     }
 
     public void deleteTask(ActionEvent actionEvent) {
@@ -165,25 +198,25 @@ public class IndexController implements Initializable {
 
     private boolean validateFields(String title, String worker, Priority priority, Status status) {
         if (title.isEmpty()) {
-            logger.warn("Please enter a title before adding a task!");
+            logger.warn("Please enter a title before adding or editing a task!");
             showErrorMessage("Error", "Por favor, introduce un nombre para la tarea.");
             titleTextField.requestFocus();
             return false;
         }
         if (worker.isEmpty()) {
-            logger.warn("Please enter a worker before adding a task!");
+            logger.warn("Please enter a worker before adding or editing a task!");
             showErrorMessage("Error", "Por favor, introduce un responsable para la tarea.");
             workerTextField.requestFocus();
             return false;
         }
         if (priority == null) {
-            logger.warn("Please select a priority before adding a task!");
+            logger.warn("Please select a priority before adding or editing a task!");
             showErrorMessage("Error", "Por favor, selecciona una prioridad para la tarea.");
             priorityComboBox.requestFocus();
             return false;
         }
         if (status == null) {
-            logger.warn("Please select a status before adding a task!");
+            logger.warn("Please select a status before adding or editing a task!");
             showErrorMessage("Error", "Por favor, selecciona un estado para la tarea.");
             statusComboBox.requestFocus();
             return false;
