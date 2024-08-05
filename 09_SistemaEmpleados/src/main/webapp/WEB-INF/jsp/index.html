@@ -1,3 +1,6 @@
+<!-- Este archivo es sólo para editar la plantilla index.jsp -->
+<%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 <!doctype html>
 <html lang="en">
 <head>
@@ -53,12 +56,21 @@
             </tr>
             </thead>
             <tbody>
-            <tr>
-                <th scope="row">1</th>
-                <td>Mark</td>
-                <td>Otto</td>
-                <td>Janitor</td>
-            </tr>
+            <c:forEach var="employee" items="${employees}">
+                <tr>
+                    <th scope="row">${employee.id}</th>
+                    <td>${employee.firstName}</td>
+                    <td>${employee.lastName}</td>
+                    <td>${employee.jobTitle}</td>
+                    <td>${employee.department}</td>
+                    <td>${employee.email}</td>
+                    <td>${employee.phone}</td>
+                    <td>
+                        <fmt:setLocale value="en_US"/>
+                        <fmt:formatNumber value="${employee.grossPayUSD}" type="currency" currencySymbol="USD"/>
+                    </td>
+                </tr>
+            </c:forEach>
             </tbody>
         </table>
     </div>
