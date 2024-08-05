@@ -10,10 +10,10 @@
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav">
                     <li class="nav-item">
-                        <a class="nav-link active" aria-current="page" href="#">Inicio</a>
+                        <a class="nav-link active" aria-current="page" href="/simple-hrms/">Inicio</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#">Agregar empleado</a>
+                        <a class="nav-link" href="/simple-hrms/add-employee/">Agregar empleado</a>
                     </li>
                 </ul>
             </div>
