@@ -21,6 +21,7 @@
                 <th scope="col">Email</th>
                 <th scope="col">Fono</th>
                 <th scope="col">Sueldo bruto</th>
+                <th scope="col"></th>
             </tr>
             </thead>
             <tbody>
@@ -36,6 +37,14 @@
                     <td>
                         <fmt:setLocale value="en_US"/>
                         <fmt:formatNumber value="${employee.grossPayUSD}" type="currency" currencySymbol="USD"/>
+                    </td>
+                    <td class="text-center">
+                        <c:set var="editEmployee">
+                            <c:url value="${application.contextPath}/edit-employee/">
+                                <c:param name="id" value="${employee.id}"/>
+                            </c:url>
+                        </c:set>
+                        <a href="${editEmployee}" class="btn btn-warning btn-sm me-3">Editar</a>
                     </td>
                 </tr>
             </c:forEach>
