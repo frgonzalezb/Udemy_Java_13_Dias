@@ -23,6 +23,7 @@
                 <th scope="col">Fono</th>
                 <th scope="col">Sueldo bruto</th>
                 <th scope="col"></th>
+                <th scope="col"></th>
             </tr>
             </thead>
             <tbody>
@@ -46,6 +47,14 @@
                             </c:url>
                         </c:set>
                         <a href="${editEmployee}" class="btn btn-warning btn-sm me-3">Editar</a>
+                    </td>
+                    <td class="text-center">
+                        <c:set var="deleteEmployee">
+                            <c:url value="${application.contextPath}/delete-employee">
+                                <c:param name="id" value="${employee.id}"/>
+                            </c:url>
+                        </c:set>
+                        <a href="${deleteEmployee}" class="btn btn-danger btn-sm me-3">Eliminar</a>
                     </td>
                 </tr>
             </c:forEach>

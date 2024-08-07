@@ -8,3 +8,6 @@
 <c:set var="editEmployee">
     <c:url value="${application.contextPath}/edit-employee"/>
 </c:set>
+<c:set var="deleteEmployee">
+    <c:url value="${application.contextPath}/delete-employee"/>
+</c:set>

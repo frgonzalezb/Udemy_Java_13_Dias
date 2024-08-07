@@ -25,7 +25,10 @@ public class IndexController {
     @RequestMapping(value = "/", method = RequestMethod.GET)
     public String start(ModelMap model) {
         logger.info("IndexController start()");
-        List<Employee> employees = employeeService.listEmployees();
+        List<Employee> employees = employeeService.listEmployees()
+                .stream()
+                .filter(employee -> !employee.isDeleted())
+                .toList();
         employees.forEach(employee -> logger.info(employee.toString()));
         // Compartimos el modelo con la vista
         // model.put("employees", employees);
@@ -61,6 +64,14 @@ public class IndexController {
         logger.info("IndexController editEmployee()");
         employeeService.saveEmployee(employee);
         logger.info("Edited employee: " + employee.toString());
+        return "redirect:/";
+    }
+
+    @RequestMapping(value = "/delete-employee", method = RequestMethod.GET)
+    public String deleteEmployee(@RequestParam String id) {
+        logger.info("IndexController deleteEmployee()");
+        employeeService.deleteEmployee(Long.parseLong(id));
+        logger.info("Deleted employee: " + id);
         return "redirect:/";
     }
 }
