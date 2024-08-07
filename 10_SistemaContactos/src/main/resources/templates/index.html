@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport"
@@ -50,12 +50,12 @@
             </tr>
             </thead>
             <tbody>
-            <tr>
-                <th scope="row">1</th>
-                <td>Elmer</td>
-                <td>Luzo</td>
-                <td>elmerluzo@quesevaya.cl</td>
-                <td>987654321</td>
+            <tr th:each="contact : ${contactList}">
+                <th th:text="${contact.id}" scope="row"></th>
+                <td th:text="${contact.firstName}"></td>
+                <td th:text="${contact.lastName}"></td>
+                <td th:text="${contact.email}"></td>
+                <td th:text="${contact.phone}"></td>
                 <td>(Botones para editar y eliminar)</td>
             </tr>
             </tbody>
