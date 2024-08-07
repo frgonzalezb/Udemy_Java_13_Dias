@@ -1,6 +1,7 @@
 <%@ include file="common/head.jsp"%>
 
 <body>
+<%@ include file="common/urls.jsp"%>
 <%@ include file="common/navbar.jsp"%>
 
 <!-- Main page -->
@@ -40,7 +41,7 @@
                     </td>
                     <td class="text-center">
                         <c:set var="editEmployee">
-                            <c:url value="${application.contextPath}/edit-employee/">
+                            <c:url value="${application.contextPath}/edit-employee">
                                 <c:param name="id" value="${employee.id}"/>
                             </c:url>
                         </c:set>

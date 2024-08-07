@@ -11,6 +11,7 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
 
@@ -28,21 +29,38 @@ public class IndexController {
         employees.forEach(employee -> logger.info(employee.toString()));
         // Compartimos el modelo con la vista
         // model.put("employees", employees);
-        model.addAttribute("employees", employees);
+        model.put("employees", employees);
         return "index"; // index.jsp
     }
 
-    @RequestMapping(value = "/add-employee/", method = RequestMethod.GET)
+    @RequestMapping(value = "/add-employee", method = RequestMethod.GET)
     public String showAddEmployeePage() {
         logger.info("IndexController showAddEmployeePage()");
         return "add-employee"; // add-employee.jsp
     }
 
-    @RequestMapping(value = "/add-employee/", method = RequestMethod.POST)
+    @RequestMapping(value = "/add-employee", method = RequestMethod.POST)
     public String addEmployee(@ModelAttribute("employeeForm") Employee employee) {
         logger.info("IndexController addEmployee()");
         employeeService.saveEmployee(employee);
         logger.info("Added employee: " + employee.toString());
+        return "redirect:/";
+    }
+
+    @RequestMapping(value = "/edit-employee", method = RequestMethod.GET)
+    public String showEditEmployeePage(@RequestParam String id, ModelMap model) {
+        logger.info("IndexController showEditEmployeePage()");
+        Employee employee = employeeService.getEmployeeById(Long.parseLong(id));
+        logger.info("Edit employee: " + employee.toString());
+        model.put("employee", employee);
+        return "edit-employee"; // edit-employee.jsp
+    }
+
+    @RequestMapping(value = "/edit-employee", method = RequestMethod.POST)
+    public String editEmployee(@ModelAttribute("employeeForm") Employee employee) {
+        logger.info("IndexController editEmployee()");
+        employeeService.saveEmployee(employee);
+        logger.info("Edited employee: " + employee.toString());
         return "redirect:/";
     }
 }

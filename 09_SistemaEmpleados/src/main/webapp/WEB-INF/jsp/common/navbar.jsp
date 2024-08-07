@@ -1,11 +1,3 @@
-<!-- URLs for the app -->
-<c:set var="home">
-    <c:url value="${application.contextPath}/"/>
-</c:set>
-<c:set var="addEmployee">
-    <c:url value="${application.contextPath}/add-employee/"/>
-</c:set>
-
 <!-- Navbar -->
 <div class="container">
     <nav class="navbar navbar-expand-lg bg-primary" data-bs-theme="dark">
