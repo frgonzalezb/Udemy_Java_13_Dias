@@ -68,4 +68,17 @@ public class ContactController {
         logger.info("Contact has been saved successfully: " + contact);
         return "redirect:/";
     }
+
+    @GetMapping("/delete/{id}")
+    public String delete(@PathVariable(value = "id") Long id) {
+        Contact contact = contactService.getContactById(id);
+        if (contact == null) {
+            logger.warn("ContactController delete() - Contact not found: " + id);
+            return "redirect:/";
+        }
+        logger.info("ContactController delete() - Contact found: " + contact);
+        contactService.deleteContact(id);
+        logger.info("Contact has been deleted successfully: " + contact);
+        return "redirect:/";
+    }
 }
