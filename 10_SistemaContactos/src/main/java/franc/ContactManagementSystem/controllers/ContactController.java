@@ -8,6 +8,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
 
 import java.util.List;
 
@@ -32,10 +34,16 @@ public class ContactController {
     }
 
     @GetMapping("/add")
-    public String add(ModelMap model) {
+    public String add() {
         logger.info("ContactController add()");
-        model.put("contact", new Contact());
-        logger.info("Contact has been added successfully: " + model.get("contact"));
         return "add"; // add.html
+    }
+
+    @PostMapping("/add")
+    public String save(@ModelAttribute("contact") Contact contact) {
+        logger.info("ContactController save()");
+        contactService.saveContact(contact);
+        logger.info("Contact has been saved successfully: " + contact);
+        return "redirect:/";
     }
 }
