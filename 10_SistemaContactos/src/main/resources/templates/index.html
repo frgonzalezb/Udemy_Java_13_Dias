@@ -26,7 +26,12 @@
                 <td th:text="${contact.lastName}"></td>
                 <td th:text="${contact.email}"></td>
                 <td th:text="${contact.phone}"></td>
-                <td>(Botones para editar y eliminar)</td>
+                <td class="text-center">
+                    <div class="container">
+                        <a th:href="@{'/contacts/edit/' + ${contact.id}}" class="btn btn-warning me-3">Editar</a>
+                        <a th:href="@{'/contacts/delete/' + ${contact.id}}" class="btn btn-danger">Eliminar</a>
+                    </div>
+                </td>
             </tr>
             </tbody>
         </table>
