@@ -60,4 +60,12 @@ public class ContactController {
         logger.info("ContactController edit()");
         return "edit"; // edit.html
     }
+
+    @PostMapping("/edit")
+    public String saveEdit(@ModelAttribute("contact") Contact contact) {
+        logger.info("ContactController save()");
+        contactService.saveContact(contact);
+        logger.info("Contact has been saved successfully: " + contact);
+        return "redirect:/";
+    }
 }
