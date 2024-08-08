@@ -9,6 +9,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
 import java.util.List;
@@ -45,5 +46,18 @@ public class ContactController {
         contactService.saveContact(contact);
         logger.info("Contact has been saved successfully: " + contact);
         return "redirect:/";
+    }
+
+    @GetMapping("/edit/{id}")
+    public String edit(@PathVariable(value = "id") Long id, ModelMap model) {
+        Contact contact = contactService.getContactById(id);
+        if (contact == null) {
+            logger.warn("ContactController edit() - Contact not found: " + id);
+            return "redirect:/";
+        }
+        logger.info("ContactController edit() - Contact found: " + contact);
+        model.put("contact", contact);
+        logger.info("ContactController edit()");
+        return "edit"; // edit.html
     }
 }
