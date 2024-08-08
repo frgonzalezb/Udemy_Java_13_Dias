@@ -27,6 +27,15 @@ public class ContactController {
                 .toList();;
         contactList.forEach(contact -> logger.info(contact.toString()));
         model.put("contactList", contactList);
+        logger.info("Contacts have been listed successfully.");
         return "index"; // index.html
+    }
+
+    @GetMapping("/add")
+    public String add(ModelMap model) {
+        logger.info("ContactController add()");
+        model.put("contact", new Contact());
+        logger.info("Contact has been added successfully: " + model.get("contact"));
+        return "add"; // add.html
     }
 }

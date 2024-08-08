@@ -1,0 +1,37 @@
+<!doctype html>
+<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{common/head :: head('Agregar Contacto')}"></head>
+<body>
+<div th:replace="~{common/navbar :: navbar}"></div>
+<div th:replace="~{common/title :: title('Agregar Contacto')}"></div>
+
+<div class="container">
+    <form th:action="@{/contact/save}" method="post" th:object="${contact}">
+        <div class="mb-3">
+            <label for="firstName" class="form-label">Nombre</label>
+            <input type="text" class="form-control" id="firstName" name="firstName" th:field="*{firstName}">
+        </div>
+        <div class="mb-3">
+            <label for="lastName" class="form-label">Apellido</label>
+            <input type="text" class="form-control" id="lastName" name="lastName" th:field="*{lastName}">
+        </div>
+        <div class="mb-3">
+            <label for="email" class="form-label">Email</label>
+            <input type="text" class="form-control" id="email" name="email" th:field="*{email}">
+        </div>
+        <div class="mb-3">
+            <label for="phone" class="form-label">Fono</label>
+            <input type="text" class="form-control" id="phone" name="phone" th:field="*{phone}">
+        </div>
+        <div class="text-center">
+            <button type="submit" class="btn btn-warning me-3">Guardar</button>
+            <a href="/contacts" class="btn btn-danger">Regresar</a>
+        </div>
+    </form>
+</div>
+
+<div th:replace="~{common/footer :: footer}"></div>
+<div th:replace="~{common/scripts :: scripts}"></div>
+</body>
+</html>
