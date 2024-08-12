@@ -22,4 +22,5 @@ public class Account {
     private String number;
     private String type;
     private double balance;
+    private boolean active;
 }
