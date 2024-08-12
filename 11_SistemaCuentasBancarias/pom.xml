@@ -28,25 +28,36 @@
 	</scm>
 	<properties>
 		<java.version>21</java.version>
-		<joinfaces.version>5.4.0-m1</joinfaces.version>
 	</properties>
 	<dependencies>
+		<!-- https://mvnrepository.com/artifact/org.joinfaces/primefaces-spring-boot-starter -->
 		<dependency>
 			<groupId>org.joinfaces</groupId>
 			<artifactId>primefaces-spring-boot-starter</artifactId>
+			<version>5.3.2</version>
 		</dependency>
+
+		<!-- https://mvnrepository.com/artifact/org.joinfaces/security-spring-boot-starter -->
 		<dependency>
 			<groupId>org.joinfaces</groupId>
 			<artifactId>security-spring-boot-starter</artifactId>
+			<version>5.3.2</version>
 		</dependency>
+
+		<!-- https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-starter-data-jpa -->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-data-jpa</artifactId>
+			<version>3.3.2</version>
 		</dependency>
+
+		<!-- https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-starter-web -->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-web</artifactId>
+			<version>3.3.2</version>
 		</dependency>
+
 
 		<dependency>
 			<groupId>com.mysql</groupId>
@@ -67,13 +78,14 @@
 
 	<dependencyManagement>
 		<dependencies>
+			<!-- https://mvnrepository.com/artifact/org.joinfaces/joinfaces-bom -->
 			<dependency>
 				<groupId>org.joinfaces</groupId>
 				<artifactId>joinfaces-bom</artifactId>
-				<version>${joinfaces.version}</version>
+				<version>5.3.2</version>
 				<type>pom</type>
-				<scope>import</scope>
 			</dependency>
+
 		</dependencies>
 	</dependencyManagement>
 
