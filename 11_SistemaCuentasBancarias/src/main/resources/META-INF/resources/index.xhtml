@@ -12,17 +12,40 @@
     <title>Sistema de Gestión de Cuentas Bancarias</title>
 </h:head>
 <h:body>
-<div class="card">
-    <div class="flex justify-content-center flex-wrap card-container yellow-container">
-        <h3>Sistema de Cuentas Bancarias</h3>
-    </div>
-
     <div class="card">
-        <p:dataTable value="#{indexController.accounts}" var="account">
-            <div>Valores de la tabla:</div>
-            <h:outputText value="#{account.clientName}"/>
-        </p:dataTable>
+        <div class="card">
+            <p:dataTable value="#{indexController.accounts}" var="account">
+                <f:facet name="header">
+                    <div class="flex justify-content-center flex-wrap card-container yellow-container">
+                        <div class="flex align-items-center justify-content-center w-20rem h-4rem bg-yellow-500 font-bold text-gray-900 border-round m-2">
+                            <h3>Sistema de Cuentas Bancarias</h3>
+                        </div>
+                    </div>
+                </f:facet>
+
+                <p:column headerText="#">
+                    <h:outputText value="#{account.id}"/>
+                </p:column>
+
+                <p:column headerText="Cliente">
+                    <h:outputText value="#{account.clientName}"/>
+                </p:column>
+
+                <p:column headerText="Nro. Cuenta">
+                    <h:outputText value="#{account.number}"/>
+                </p:column>
+
+                <p:column headerText="Tipo Cuenta">
+                    <h:outputText value="#{account.type}"/>
+                </p:column>
+
+                <p:column headerText="Saldo">
+                    <h:outputText value="#{account.balance}">
+                        <f:convertNumber type="currency" currencySymbol="USD"/>
+                    </h:outputText>
+                </p:column>
+            </p:dataTable>
+        </div>
     </div>
-</div>
 </h:body>
 </html>
