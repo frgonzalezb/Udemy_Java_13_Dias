@@ -13,39 +13,47 @@
 </h:head>
 <h:body>
     <div class="card">
-        <div class="card">
-            <p:dataTable value="#{indexController.accounts}" var="account">
-                <f:facet name="header">
-                    <div class="flex justify-content-center flex-wrap card-container yellow-container">
-                        <div class="flex align-items-center justify-content-center w-20rem h-4rem bg-yellow-500 font-bold text-gray-900 border-round m-2">
-                            <h3>Sistema de Cuentas Bancarias</h3>
+        <h:form id="account-form">
+            <p:growl id="messages" showDetail="true"/>
+            <div class="card">
+                <p:menubar>
+                    <p:menuitem value="Inicio" icon="pi pi-fw pi-user" update=":account-form:account-table" actionListener="#{indexController.loadData}"/>
+                </p:menubar>
+            </div>
+            <div class="card">
+                <p:dataTable id="account-table" value="#{indexController.accounts}" var="account" widgetVar="accountTable">
+                    <f:facet name="header">
+                        <div class="flex justify-content-center flex-wrap card-container yellow-container">
+                            <div class="flex align-items-center justify-content-center w-20rem h-4rem bg-yellow-500 font-bold text-gray-900 border-round m-2">
+                                <h3>Sistema de Cuentas Bancarias</h3>
+                            </div>
                         </div>
-                    </div>
-                </f:facet>
+                    </f:facet>
 
-                <p:column headerText="#">
-                    <h:outputText value="#{account.id}"/>
-                </p:column>
+                    <p:column headerText="#">
+                        <h:outputText value="#{account.id}"/>
+                    </p:column>
 
-                <p:column headerText="Cliente">
-                    <h:outputText value="#{account.clientName}"/>
-                </p:column>
+                    <p:column headerText="Cliente">
+                        <h:outputText value="#{account.clientName}"/>
+                    </p:column>
 
-                <p:column headerText="Nro. Cuenta">
-                    <h:outputText value="#{account.number}"/>
-                </p:column>
+                    <p:column headerText="Nro. Cuenta">
+                        <h:outputText value="#{account.number}"/>
+                    </p:column>
 
-                <p:column headerText="Tipo Cuenta">
-                    <h:outputText value="#{account.type}"/>
-                </p:column>
+                    <p:column headerText="Tipo Cuenta">
+                        <h:outputText value="#{account.type}"/>
+                    </p:column>
 
-                <p:column headerText="Saldo">
-                    <h:outputText value="#{account.balance}">
-                        <f:convertNumber type="currency" currencySymbol="USD"/>
-                    </h:outputText>
-                </p:column>
-            </p:dataTable>
-        </div>
+                    <p:column headerText="Saldo">
+                        <h:outputText value="#{account.balance}">
+                            <f:convertNumber type="currency" currencySymbol="USD"/>
+                        </h:outputText>
+                    </p:column>
+                </p:dataTable>
+            </div>
+        </h:form>
     </div>
 </h:body>
 </html>
