@@ -4,10 +4,13 @@ import franc.bankAccounts.models.Account;
 import franc.bankAccounts.services.AccountService;
 
 import jakarta.annotation.PostConstruct;
+import jakarta.faces.application.FacesMessage;
+import jakarta.faces.context.FacesContext;
 import jakarta.faces.view.ViewScoped;
 
 import lombok.Data;
 
+import org.primefaces.PrimeFaces;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -44,5 +47,23 @@ public class IndexController {
 
     public void addAccount() {
         this.selectedAccount = new Account();
+    }
+
+    public void saveAccount() {
+        logger.info("IndexController saveAccount()");
+        logger.info("Account to save: " + this.selectedAccount);
+        if (this.selectedAccount.getId() == null) {
+            // add account
+            this.selectedAccount.setActive(true);
+            this.accountService.saveAccount(this.selectedAccount);
+            FacesContext.getCurrentInstance().addMessage(
+                    null,
+                    new FacesMessage("Account has been added successfully.")
+            );
+        }
+        // hide window
+        PrimeFaces.current().executeScript("PF('accountModalWindow').hide()");
+        // update table
+        PrimeFaces.current().ajax().update("account-form:messages", "account-form:account-table");
     }
 }

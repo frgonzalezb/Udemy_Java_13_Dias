@@ -17,12 +17,16 @@
             <p:growl id="messages" showDetail="true"/>
             <div class="card">
                 <p:menubar>
-                    <p:menuitem value="Inicio" icon="pi pi-fw pi-user" update=":account-form:account-table" actionListener="#{indexController.loadData}"/>
-                    <p:menuitem value="Nueva Cuenta" icon="pi pi-fw pi-font-awesome" actionListener="#{indexController.addAccount}" update=":modal-form:account-window" oncomplete="PF('accountModalWindow').show()"/>
+                    <p:menuitem value="Inicio" icon="pi pi-fw pi-user" update=":account-form:account-table"
+                                actionListener="#{indexController.loadData}"/>
+                    <p:menuitem value="Nueva Cuenta" icon="pi pi-fw pi-user-plus"
+                                actionListener="#{indexController.addAccount}" update=":modal-form:account-window"
+                                oncomplete="PF('accountModalWindow').show()"/>
                 </p:menubar>
             </div>
             <div class="card">
-                <p:dataTable id="account-table" value="#{indexController.accounts}" var="account" widgetVar="accountTable">
+                <p:dataTable id="account-table" value="#{indexController.accounts}" var="account"
+                             widgetVar="accountTable">
                     <f:facet name="header">
                         <div class="flex justify-content-center flex-wrap card-container yellow-container">
                             <div class="flex align-items-center justify-content-center w-20rem h-4rem bg-yellow-500 font-bold text-gray-900 border-round m-2">
@@ -58,11 +62,13 @@
 
         <!-- Modal form -->
         <h:form id="modal-form">
-            <p:dialog modal="true" header="Detalle de la cuenta" showEffect="fade" widgetVar="accountModalWindow" responsive="true">
+            <p:dialog modal="true" header="Detalle de la cuenta" showEffect="fade" widgetVar="accountModalWindow"
+                      responsive="true">
                 <p:outputPanel id="account-window" class="ui-fluid">
                     <div class="field">
                         <p:outputLabel for="clientName">Nombre del cliente:</p:outputLabel>
-                        <p:inputText id="clientName" value="#{indexController.selectedAccount.clientName}" required="true"/>
+                        <p:inputText id="clientName" value="#{indexController.selectedAccount.clientName}"
+                                     required="true"/>
                     </div>
                     <div class="field">
                         <p:outputLabel for="number">Número de cuenta:</p:outputLabel>
@@ -82,6 +88,13 @@
                         <p:inputNumber id="balance" value="#{indexController.selectedAccount.balance}" required="true"/>
                     </div>
                 </p:outputPanel>
+
+                <f:facet name="footer">
+                    <p:commandButton value="Guardar" icon="pi pi-check" actionListener="#{indexController.saveAccount}"
+                                     process="account-window @this"/>
+                    <p:commandButton value="Cancelar" icon="pi pi-times" onclick="PF('accountModalWindow').hide()"
+                                     class="ui-button-secondary" type="button"/>
+                </f:facet>
             </p:dialog>
         </h:form>
     </div>
