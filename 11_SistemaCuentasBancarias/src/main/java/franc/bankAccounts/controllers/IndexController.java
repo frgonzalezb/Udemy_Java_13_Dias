@@ -49,16 +49,26 @@ public class IndexController {
         this.selectedAccount = new Account();
     }
 
+    public void updateList() {
+        // Not the most elegant solution, but it works!
+        logger.info("IndexController updateList()");
+        this.loadData();
+        this.selectedAccount = this.accounts.getLast();
+        logger.info("Last added account to DB: " + this.selectedAccount);
+    }
+
     public void saveAccount() {
         logger.info("IndexController saveAccount()");
         logger.info("Account to save: " + this.selectedAccount);
         if (this.selectedAccount.getId() == null) {
-            // add account
+            // create account
             this.selectedAccount.setActive(true);
             this.accountService.saveAccount(this.selectedAccount);
+            this.updateList();
+            logger.info("Account has been created successfully: " + this.selectedAccount);
             FacesContext.getCurrentInstance().addMessage(
                     null,
-                    new FacesMessage("Account has been added successfully.")
+                    new FacesMessage("Account has been created successfully.")
             );
         }
         // hide window
