@@ -18,6 +18,7 @@
             <div class="card">
                 <p:menubar>
                     <p:menuitem value="Inicio" icon="pi pi-fw pi-user" update=":account-form:account-table" actionListener="#{indexController.loadData}"/>
+                    <p:menuitem value="Nueva Cuenta" icon="pi pi-fw pi-font-awesome" actionListener="#{indexController.addAccount}" update=":modal-form:account-window" oncomplete="PF('accountModalWindow').show()"/>
                 </p:menubar>
             </div>
             <div class="card">
@@ -53,6 +54,35 @@
                     </p:column>
                 </p:dataTable>
             </div>
+        </h:form>
+
+        <!-- Modal form -->
+        <h:form id="modal-form">
+            <p:dialog modal="true" header="Detalle de la cuenta" showEffect="fade" widgetVar="accountModalWindow" responsive="true">
+                <p:outputPanel id="account-window" class="ui-fluid">
+                    <div class="field">
+                        <p:outputLabel for="clientName">Nombre del cliente:</p:outputLabel>
+                        <p:inputText id="clientName" value="#{indexController.selectedAccount.clientName}" required="true"/>
+                    </div>
+                    <div class="field">
+                        <p:outputLabel for="number">Número de cuenta:</p:outputLabel>
+                        <p:inputNumber id="number" value="#{indexController.selectedAccount.number}" required="true"/>
+                    </div>
+                    <div class="field">
+                        <p:outputLabel for="type">Tipo de cuenta:</p:outputLabel>
+                        <p:selectOneMenu id="type" value="#{indexController.selectedAccount.type}" required="true">
+                            <f:selectItem itemLabel="Selecciona una opción" itemValue=""/>
+                            <f:selectItem itemLabel="Cuenta Corriente" itemValue="Cuenta Corriente"/>
+                            <f:selectItem itemLabel="Cuenta Vista" itemValue="Cuenta Vista"/>
+                            <f:selectItem itemLabel="Cuenta de Ahorro" itemValue="Cuenta de Ahorro"/>
+                        </p:selectOneMenu>
+                    </div>
+                    <div class="field">
+                        <p:outputLabel for="balance">Saldo:</p:outputLabel>
+                        <p:inputNumber id="balance" value="#{indexController.selectedAccount.balance}" required="true"/>
+                    </div>
+                </p:outputPanel>
+            </p:dialog>
         </h:form>
     </div>
 </h:body>

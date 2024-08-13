@@ -23,6 +23,7 @@ public class IndexController {
     AccountService accountService;
 
     private List<Account> accounts;
+    private Account selectedAccount;
     private static final Logger logger = LoggerFactory.getLogger(IndexController.class);
 
     @PostConstruct
@@ -39,5 +40,9 @@ public class IndexController {
                 .toList();
         accounts.forEach(account -> logger.info(account.toString()));
         logger.info("Accounts have been listed successfully.");
+    }
+
+    public void addAccount() {
+        this.selectedAccount = new Account();
     }
 }
