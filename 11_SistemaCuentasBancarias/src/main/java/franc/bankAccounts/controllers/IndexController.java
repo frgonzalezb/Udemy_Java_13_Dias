@@ -70,6 +70,15 @@ public class IndexController {
                     null,
                     new FacesMessage("Account has been created successfully.")
             );
+        } else {
+            // update account
+            this.accountService.saveAccount(this.selectedAccount);
+            this.updateList();
+            logger.info("Account has been updated successfully: " + this.selectedAccount);
+            FacesContext.getCurrentInstance().addMessage(
+                    null,
+                    new FacesMessage("Account has been updated successfully.")
+            );
         }
         // hide window
         PrimeFaces.current().executeScript("PF('accountModalWindow').hide()");

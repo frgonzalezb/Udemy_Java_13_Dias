@@ -56,6 +56,15 @@
                             <f:convertNumber type="currency" currencySymbol="USD"/>
                         </h:outputText>
                     </p:column>
+
+                    <p:column>
+                        <p:commandButton value="Editar" icon="pi pi-pencil" update=":modal-form:account-window"
+                                         oncomplete="PF('accountModalWindow').show()" process="@this"
+                                         class="ui-button-primary" style="margin-right: 0.5rem">
+                            <f:setPropertyActionListener target="#{indexController.selectedAccount}" value="#{account}"/>
+                            <p:resetInput target=":modal-form:account-window"/>
+                        </p:commandButton>
+                    </p:column>
                 </p:dataTable>
             </div>
         </h:form>
