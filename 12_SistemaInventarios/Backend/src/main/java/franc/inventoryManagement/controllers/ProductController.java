@@ -14,7 +14,6 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/inventory") // context = localhost:8080/inventory
-@CrossOrigin(value = "http://localhost:4200") // default Angular port
 public class ProductController {
     private static final Logger logger = LoggerFactory.getLogger(ProductController.class);
 
