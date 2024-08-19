@@ -1,1 +1,47 @@
-<p>add-product works!</p>
+<div class="container">
+
+  <div class="container text-center title">
+    <h3>Add Product</h3>
+  </div>
+
+  <form>
+    <div class="mb-3 form-field">
+      <label for="nameField" class="form-label">Name</label>
+      <input type="text" class="form-control" id="nameField" placeholder="Enter the product name here"
+        aria-label="Name">
+    </div>
+    <div class="mb-3 form-field">
+      <label for="descriptionField" class="form-label">Description</label>
+      <textarea class="form-control" id="descriptionField" rows="3" placeholder="Enter the product description here"
+        aria-label="Description"></textarea>
+    </div>
+    <div class="mb-3 form-field">
+      <label for="priceField" class="form-label">Price</label>
+      <div class="input-group">
+        <span class="input-group-text">USD</span>
+        <input type="number" class="form-control" id="priceField" placeholder="Enter the product price here"
+          aria-label="Price">
+      </div>
+    </div>
+    <div class="mb-3 form-field">
+      <label for="quantityField" class="form-label">Stock Quantity</label>
+      <input type="number" class="form-control" id="quantityField" placeholder="Enter the product stock here"
+        aria-label="Quantity">
+    </div>
+    <div class="mb-3 form-field">
+      <label for="typeField" class="form-label">Type</label>
+      <select class="form-select" id="typeField" aria-label="Type">
+        <option selected>Select the product type here</option>
+        <option value="1">One</option>
+        <option value="2">Two</option>
+        <option value="3">Three</option>
+      </select>
+    </div>
+    <div class="text-center">
+      <button type="submit" class="btn btn-primary me-3">Submit</button>
+      <button type="reset" class="btn btn-warning me-3">Reset</button>
+      <button type="button" class="btn btn-danger" routerLink="home">Go back</button>
+    </div>
+  </form>
+
+</div>
