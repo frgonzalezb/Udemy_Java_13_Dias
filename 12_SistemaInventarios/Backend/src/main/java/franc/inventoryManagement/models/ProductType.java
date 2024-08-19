@@ -1,5 +1,6 @@
 package franc.inventoryManagement.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -22,8 +23,10 @@ public class ProductType {
     private String name;
 
     @Column(length = 1000)
+    @JsonIgnore
     private String description;
 
     @OneToMany(mappedBy = "type", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JsonIgnore
     private List<Product> products;
 }

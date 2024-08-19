@@ -32,9 +32,7 @@
       <label for="typeField" class="form-label">Type</label>
       <select class="form-select" id="typeField" aria-label="Type">
         <option selected>Select the product type here</option>
-        <option value="1">One</option>
-        <option value="2">Two</option>
-        <option value="3">Three</option>
+        <option *ngFor="let type of types" [value]="type.id">{{ type.name }}</option>
       </select>
     </div>
     <div class="text-center">
