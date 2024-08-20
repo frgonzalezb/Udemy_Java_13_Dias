@@ -1,10 +1,12 @@
 package franc.inventoryManagement.controllers;
 
+import franc.inventoryManagement.exceptions.ProductNotFoundException;
 import franc.inventoryManagement.models.Product;
 import franc.inventoryManagement.services.IProductService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -36,5 +38,16 @@ public class ProductController {
         logger.info("ProductController saveProduct() called.");
         logger.info("Product: " + product.toString());
         return productService.saveProduct(product);
+    }
+
+    @GetMapping("/products/{id}")
+    public ResponseEntity<Product> getProductById(@PathVariable Long id) {
+        logger.info("ProductController getProductById() called.");
+        Product product = productService.getProductById(id);
+        if (product == null) {
+            logger.error("There's no product with id: " + id);
+            throw new ProductNotFoundException("There's no product with id: " + id);
+        }
+        return ResponseEntity.ok(product);
     }
 }
