@@ -4,36 +4,57 @@
     <h3>Add Product</h3>
   </div>
 
-  <form>
+  <form [formGroup]="addProductForm" (ngSubmit)="onSubmit()" class="needs-validation" novalidate>
     <div class="mb-3 form-field">
       <label for="nameField" class="form-label">Name</label>
-      <input type="text" class="form-control" id="nameField" placeholder="Enter the product name here"
-        aria-label="Name">
+      <input type="text" class="form-control" id="nameField" formControlName="name"
+        [ngClass]="{'is-invalid': isInvalid('name'), 'is-valid': isValid('name')}"
+        placeholder="Enter the product name here" aria-label="Name" required>
+      <div class="invalid-feedback">
+        Please provide a name for the product (max 255 characters).
+      </div>
     </div>
     <div class="mb-3 form-field">
       <label for="descriptionField" class="form-label">Description</label>
-      <textarea class="form-control" id="descriptionField" rows="3" placeholder="Enter the product description here"
-        aria-label="Description"></textarea>
+      <textarea class="form-control" id="descriptionField" formControlName="description"
+        [ngClass]="{'is-invalid': isInvalid('description'), 'is-valid': isValid('description') && addProductForm.get('description')?.value?.length > 0}"
+        rows="3" placeholder="Enter the product description here" aria-label="Description"></textarea>
+      <div class="invalid-feedback">
+        Provided description should be max 1000 characters.
+      </div>
     </div>
     <div class="mb-3 form-field">
       <label for="priceField" class="form-label">Price</label>
       <div class="input-group">
         <span class="input-group-text">USD</span>
-        <input type="number" class="form-control" id="priceField" placeholder="Enter the product price here"
-          aria-label="Price">
+        <input type="number" class="form-control" id="priceField" formControlName="price"
+          [ngClass]="{'is-invalid': isInvalid('price'), 'is-valid': isValid('price')}"
+          placeholder="Enter the product price here" aria-label="Price" required>
+        <div class="invalid-feedback">
+          Please provide a price for the product.
+        </div>
       </div>
     </div>
     <div class="mb-3 form-field">
       <label for="quantityField" class="form-label">Stock Quantity</label>
-      <input type="number" class="form-control" id="quantityField" placeholder="Enter the product stock here"
-        aria-label="Quantity">
+      <input type="number" class="form-control" id="quantityField" formControlName="quantity"
+        [ngClass]="{'is-invalid': isInvalid('quantity'), 'is-valid': isValid('quantity')}"
+        placeholder="Enter the product stock here" aria-label="Quantity" required>
+      <div class="invalid-feedback">
+        Please provide a stock quantity for the product.
+      </div>
     </div>
     <div class="mb-3 form-field">
       <label for="typeField" class="form-label">Type</label>
-      <select class="form-select" id="typeField" aria-label="Type">
-        <option selected>Select the product type here</option>
+      <select class="form-select" id="typeField" formControlName="type"
+        [ngClass]="{'is-invalid': isInvalid('type'), 'is-valid': isValid('type')}"
+        aria-label="Type" required>
+        <option value="null" disabled selected>Select the product type here</option>
         <option *ngFor="let type of types" [value]="type.id">{{ type.name }}</option>
       </select>
+      <div class="invalid-feedback">
+        Please select a type for the product.
+      </div>
     </div>
     <div class="text-center">
       <button type="submit" class="btn btn-primary me-3">Submit</button>
