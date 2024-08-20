@@ -24,6 +24,7 @@ export class AddProductComponent {
   addProductForm: FormGroup;
 
   product: Product;
+  productType: ProductType;
   types: ProductType[];
 
   constructor(
@@ -40,6 +41,7 @@ export class AddProductComponent {
       type: [null, Validators.required]
     });
     this.product = new Product();
+    this.productType = new ProductType();
     this.types = [];
   }
 
@@ -56,6 +58,16 @@ export class AddProductComponent {
   }
 
   onSubmit() {
+    this.saveProduct();
+  }
+
+  getAllTypes() {
+    this.productTypeService.getAllTypes().subscribe((types) => {
+      this.types = types;
+    });
+  }
+
+  saveProduct() {
     if (this.addProductForm.invalid) {
       console.error("Form is invalid:", this.addProductForm.value); // dbg
       this.addProductForm.markAllAsTouched();
@@ -66,11 +78,25 @@ export class AddProductComponent {
       this.addProductForm.value.description = "";
     }
     console.log("Form is valid:", this.addProductForm.value); // dbg
-  }
 
-  getAllTypes() {
-    this.productTypeService.getAllTypes().subscribe((types) => {
-      this.types = types;
+    this.productType = this.addProductForm.value.type;
+    console.log("Product type:", this.productType); // dbg
+
+    this.product.name = this.addProductForm.value.name;
+    this.product.description = this.addProductForm.value.description;
+    this.product.price = this.addProductForm.value.price;
+    this.product.quantity = this.addProductForm.value.quantity;
+    this.product.type = this.productType;
+    console.log("Product:", this.product); // dbg
+
+    this.productService.addProduct(this.product).subscribe({
+      next: (product) => {
+        console.log("Product added:", product); // dbg
+        this.router.navigate(['/products']);
+      },
+      error: (error) => {
+        console.error("Error adding product:", error); // dbg
+      }
     });
   }
 

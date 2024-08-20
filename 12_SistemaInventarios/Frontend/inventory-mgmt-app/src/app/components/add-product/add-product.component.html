@@ -50,7 +50,7 @@
         [ngClass]="{'is-invalid': isInvalid('type'), 'is-valid': isValid('type')}"
         aria-label="Type" required>
         <option value="null" disabled selected>Select the product type here</option>
-        <option *ngFor="let type of types" [value]="type.id">{{ type.name }}</option>
+        <option *ngFor="let type of types" [ngValue]="type">{{ type.name }}</option>
       </select>
       <div class="invalid-feedback">
         Please select a type for the product.
