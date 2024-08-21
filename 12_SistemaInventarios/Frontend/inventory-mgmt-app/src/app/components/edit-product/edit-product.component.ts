@@ -87,7 +87,6 @@ export class EditProductComponent {
     return optionType && selectedType ? optionType.id === selectedType.id : optionType === selectedType;
   }
 
-
   isValid(controlName: string) {
     return this.editProductForm.get(controlName)?.valid;
   }
@@ -128,13 +127,13 @@ export class EditProductComponent {
     this.product.type = this.productType;
     console.log("Product:", this.product); // dbg
 
-    this.productService.addProduct(this.product).subscribe({
+    this.productService.editProduct(this.product).subscribe({
       next: (product) => {
-        console.log("Product added:", product); // dbg
+        console.log("Product updated:", product); // dbg
         this.router.navigate(['/products']);
       },
       error: (error) => {
-        console.error("Error adding product:", error); // dbg
+        console.error("Error updating product:", error); // dbg
       }
     });
   }
