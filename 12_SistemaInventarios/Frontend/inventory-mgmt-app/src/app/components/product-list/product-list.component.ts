@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { ProductService } from '../../services/product.service';
 import { Product } from '../../models/product';
 import { CommonModule } from '@angular/common';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-product-list',
@@ -11,9 +12,14 @@ import { CommonModule } from '@angular/common';
   styleUrl: './product-list.component.css'
 })
 export class ProductListComponent {
+
+  product: Product;
   products: Product[];
 
-  constructor(private productService: ProductService) {
+  constructor(
+    private productService: ProductService,
+    private router: Router
+  ) {
     this.products = [];
   }
 
@@ -26,4 +32,15 @@ export class ProductListComponent {
       this.products = products;
     })
   }
+
+  editProduct(productId: number) {
+    console.log("Edit product with id:", productId);
+    this.router.navigate(['/edit-product', productId]);
+  }
+
+  deleteProduct(productId: number) {
+    console.log("Delete product with id:", productId);
+    // TODO: implement
+  }
+
 }
