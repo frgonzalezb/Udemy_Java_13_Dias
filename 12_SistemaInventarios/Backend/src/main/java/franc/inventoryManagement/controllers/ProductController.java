@@ -10,6 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/inventory")
@@ -69,9 +70,16 @@ public class ProductController {
     }
 
     @DeleteMapping("/products/{id}")
-    public ResponseEntity<Void> deleteProductById(@PathVariable Long id) {
+    public ResponseEntity<Map<String, String>> deleteProductById(@PathVariable Long id) {
         logger.info("ProductController deleteProductById() called.");
+        Product product = productService.getProductById(id);
+        if (product == null) {
+            logger.error("There's no product with id: " + id);
+            throw new ProductNotFoundException("There's no product with id: " + id);
+        }
         productService.deleteProductById(id);
-        return ResponseEntity.noContent().build();
+        logger.info("Product with id: " + id + " has been deleted successfully.");
+        Map<String, String> response = Map.of("message", "Product deleted successfully");
+        return ResponseEntity.ok(response);
     }
 }

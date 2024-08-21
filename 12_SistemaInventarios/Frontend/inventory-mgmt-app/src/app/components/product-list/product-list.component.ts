@@ -40,7 +40,15 @@ export class ProductListComponent {
 
   deleteProduct(productId: number) {
     console.log("Delete product with id:", productId);
-    // TODO: implement
+    this.productService.deleteProduct(productId).subscribe({
+      next: () => {
+        console.log("Product deleted with id:", productId); // dbg
+        this.getAllProducts();
+      },
+      error: (error) => {
+        console.log("Error deleting product:", error); // dbg
+      }
+    });
   }
 
 }
