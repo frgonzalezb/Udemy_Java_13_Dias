@@ -50,4 +50,28 @@ public class ProductController {
         }
         return ResponseEntity.ok(product);
     }
+
+    @PutMapping("/products/{id}")
+    public ResponseEntity<Product> updateProduct(@PathVariable Long id, @RequestBody Product product) {
+        logger.info("ProductController updateProduct() called.");
+        Product updatedProduct = productService.getProductById(id);
+        if (updatedProduct == null) {
+            logger.error("There's no product with id: " + id);
+            throw new ProductNotFoundException("There's no product with id: " + id);
+        }
+        updatedProduct.setName(product.getName());
+        updatedProduct.setDescription(product.getDescription());
+        updatedProduct.setPrice(product.getPrice());
+        updatedProduct.setQuantity(product.getQuantity());
+        updatedProduct.setType(product.getType());
+        productService.saveProduct(updatedProduct);
+        return ResponseEntity.ok(updatedProduct);
+    }
+
+    @DeleteMapping("/products/{id}")
+    public ResponseEntity<Void> deleteProductById(@PathVariable Long id) {
+        logger.info("ProductController deleteProductById() called.");
+        productService.deleteProductById(id);
+        return ResponseEntity.noContent().build();
+    }
 }
