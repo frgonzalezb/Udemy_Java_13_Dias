@@ -1,5 +1,6 @@
 package franc.HRMS.controllers;
 
+import franc.HRMS.models.Employee;
 import franc.HRMS.services.IEmployeeService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -17,4 +18,16 @@ public class EmployeeController {
 
     @Autowired
     private IEmployeeService employeeService;
+
+    @GetMapping("/employees")
+    public List<Employee> getEmployees() {
+        logger.info("EmployeeController getEmployees() called.");
+        List<Employee> employees = employeeService.getAll()
+                .stream()
+                .filter(Employee::isActive)
+                .toList();
+        employees.forEach(employee -> logger.info(employee.toString()));
+        logger.info("Products have been listed successfully.");
+        return employees;
+    }
 }
