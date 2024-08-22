@@ -1,8 +1,8 @@
 package franc.HRMS.services;
 
 import franc.HRMS.models.Job;
-import franc.HRMS.repositories.JobRepository;
 
+import franc.HRMS.repositories.JobRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

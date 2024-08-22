@@ -1,8 +1,8 @@
 package franc.HRMS.services;
 
 import franc.HRMS.models.Employee;
-import franc.HRMS.repositories.EmployeeRepository;
 
+import franc.HRMS.repositories.EmployeeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

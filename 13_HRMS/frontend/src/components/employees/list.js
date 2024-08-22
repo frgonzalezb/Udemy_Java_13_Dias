@@ -1,6 +1,20 @@
-import React from 'react'
+import React from 'react';
+import axios from 'axios';
 
 export default function ListEmployees() {
+  const apiUrl = process.env.REACT_APP_API_URL + '/employees';
+  const [employees, setEmployees] = React.useState([]);
+
+  React.useEffect(() => {
+    loadEmployees();
+  }, []);
+
+  const loadEmployees = async () => {
+    const result = await axios.get(apiUrl);
+    console.log(result.data); // dbg
+    setEmployees(result.data);
+  };
+
   return (
     <div className="container">
       {/* <Header /> */}
