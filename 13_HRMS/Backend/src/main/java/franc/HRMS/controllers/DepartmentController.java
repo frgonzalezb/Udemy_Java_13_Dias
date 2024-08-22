@@ -1,5 +1,6 @@
 package franc.HRMS.controllers;
 
+import franc.HRMS.models.Department;
 import franc.HRMS.services.IDepartmentService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -17,4 +18,13 @@ public class DepartmentController {
 
     @Autowired
     private IDepartmentService departmentService;
+
+    @GetMapping("/departments")
+    public List<Department> getDepartments() {
+        logger.info("DepartmentController getDepartments() called.");
+        List<Department> departments = departmentService.getAll();
+        departments.forEach(department -> logger.info(department.toString()));
+        logger.info("Departments have been listed successfully.");
+        return departments;
+    }
 }

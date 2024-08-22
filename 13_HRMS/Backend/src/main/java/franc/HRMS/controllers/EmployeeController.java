@@ -27,7 +27,7 @@ public class EmployeeController {
                 .filter(Employee::isActive)
                 .toList();
         employees.forEach(employee -> logger.info(employee.toString()));
-        logger.info("Products have been listed successfully.");
+        logger.info("Employees have been listed successfully.");
         return employees;
     }
 }

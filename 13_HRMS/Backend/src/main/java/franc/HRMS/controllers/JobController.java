@@ -1,5 +1,6 @@
 package franc.HRMS.controllers;
 
+import franc.HRMS.models.Job;
 import franc.HRMS.services.IJobService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -17,4 +18,14 @@ public class JobController {
 
     @Autowired
     private IJobService jobService;
+
+
+    @GetMapping("/jobs")
+    public List<Job> getJobs() {
+        logger.info("JobController getJobs() called.");
+        List<Job> jobs = jobService.getAll();
+        jobs.forEach(job -> logger.info(job.toString()));
+        logger.info("Jobs have been listed successfully.");
+        return jobs;
+    }
 }
