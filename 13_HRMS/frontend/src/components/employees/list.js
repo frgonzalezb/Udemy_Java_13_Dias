@@ -37,23 +37,22 @@ export default function ListEmployees() {
           </tr>
         </thead>
         <tbody>
-          <tr>
-            <th scope="row">1</th>
-            <td>Mark</td>
-            <td>Otto</td>
-            <td>@mdo</td>
-          </tr>
-          <tr>
-            <th scope="row">2</th>
-            <td>Jacob</td>
-            <td>Thornton</td>
-            <td>@fat</td>
-          </tr>
-          <tr>
-            <th scope="row">3</th>
-            <td colspan="2">Larry the Bird</td>
-            <td>@twitter</td>
-          </tr>
+          {
+            employees.map((employee, index) => (
+              <tr key={employee.id}>
+                <th scope="row">{index + 1}</th>
+                <td>{employee.firstName}</td>
+                <td>{employee.lastName}</td>
+                <td>{employee.email}</td>
+                <td>{employee.phone}</td>
+                <td>{employee.job?.name || 'N/A'}</td>
+                <td>{employee.department?.name || 'N/A'}</td>
+                <td>
+                  <a href={`/employees/${employee.id}`} className="btn btn-primary">Edit</a>
+                </td>
+              </tr>
+            ))
+          }
         </tbody>
       </table>
     </div>
