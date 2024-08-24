@@ -30,4 +30,10 @@ public class EmployeeController {
         logger.info("Employees have been listed successfully.");
         return employees;
     }
+
+    @PostMapping("/employees")
+    public Employee addEmployee(@RequestBody Employee employee) {
+        logger.info("EmployeeController addEmployee() called.");
+        return employeeService.save(employee);
+    }
 }
