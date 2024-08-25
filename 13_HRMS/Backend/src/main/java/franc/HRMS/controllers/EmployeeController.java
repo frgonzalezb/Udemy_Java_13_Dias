@@ -1,5 +1,6 @@
 package franc.HRMS.controllers;
 
+import franc.HRMS.exceptions.EmployeeNotFoundException;
 import franc.HRMS.models.Employee;
 import franc.HRMS.services.IEmployeeService;
 import org.slf4j.Logger;
@@ -35,5 +36,17 @@ public class EmployeeController {
     public Employee addEmployee(@RequestBody Employee employee) {
         logger.info("EmployeeController addEmployee() called.");
         return employeeService.save(employee);
+    }
+
+    @GetMapping("/employees/{id}")
+    public ResponseEntity<Employee> getEmployee(@PathVariable("id") int id) {
+        logger.info("EmployeeController getEmployee() called.");
+        Employee employee = employeeService.getById((long) id);
+        if (employee == null) {
+            logger.warn("Employee not found with ID: " + id);
+            throw new EmployeeNotFoundException("Employee not found with ID: " + id);
+        }
+        logger.info("Employee found with ID: " + id);
+        return ResponseEntity.ok(employee);
     }
 }
