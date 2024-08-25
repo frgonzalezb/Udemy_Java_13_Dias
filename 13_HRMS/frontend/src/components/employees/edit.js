@@ -1,10 +1,14 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import axios from 'axios';
-import { Link } from 'react-router-dom'
+import { Link, useParams } from 'react-router-dom'
 import { useNavigate } from 'react-router-dom'
 
 export default function EditEmployee() {
   let navigation = useNavigate();
+
+  const apiUrl = process.env.REACT_APP_API_URL + '/employees';
+
+  const {id} = useParams();
 
   const [employee, setEmployee] = React.useState({
     firstName: '',
@@ -17,9 +21,18 @@ export default function EditEmployee() {
 
   const{firstName, lastName, email, phone, job, salary} = employee;
 
+  useEffect(() => {
+    loadEmployee();
+  }, [id]);
+
+  const loadEmployee = async () => {
+    const result = await axios.get(apiUrl + '/' + id);
+    setEmployee(result.data);
+  }
+
   const onSubmit = async (e) => {
     e.preventDefault();
-    await axios.post(process.env.REACT_APP_API_URL + '/employees', employee);
+    await axios.post(apiUrl, employee);
     navigation('/');
   }
 

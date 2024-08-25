@@ -48,7 +48,7 @@ export default function ListEmployees() {
                 <td>{employee.job}</td>
                 <td>{employee.salary}</td>
                 <td>
-                  <a href={`/employees/${employee.id}`} className="btn btn-primary">Edit</a>
+                  <a href={`/edit-employee/${employee.id}`} className="btn btn-primary">Edit</a>
                 </td>
               </tr>
             ))
