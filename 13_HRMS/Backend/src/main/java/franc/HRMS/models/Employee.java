@@ -32,15 +32,11 @@ public class Employee {
     @Column(nullable = false)
     private int phone;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "job_id", nullable = false)
-    @JsonIgnoreProperties(value = {"hibernateLazyInitializer", "handler", "employees"}, allowSetters = true)
-    private Job job;
+    @Column(nullable = false)
+    private String job;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "department_id", nullable = false)
-    @JsonIgnoreProperties(value = {"hibernateLazyInitializer", "handler", "employees"}, allowSetters = true)
-    private Department department;
+    @Column(nullable = false)
+    private int salary;
 
     @Column(nullable = false)
     private boolean active = true;

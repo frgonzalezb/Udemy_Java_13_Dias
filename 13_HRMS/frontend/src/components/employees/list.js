@@ -32,7 +32,7 @@ export default function ListEmployees() {
             <th scope="col">Email</th>
             <th scope="col">Phone</th>
             <th scope="col">Job</th>
-            <th scope="col">Department</th>
+            <th scope="col">Salary</th>
             <th scope="col">Actions</th>
           </tr>
         </thead>
@@ -45,8 +45,8 @@ export default function ListEmployees() {
                 <td>{employee.lastName}</td>
                 <td>{employee.email}</td>
                 <td>{employee.phone}</td>
-                <td>{employee.job?.name || 'N/A'}</td>
-                <td>{employee.department?.name || 'N/A'}</td>
+                <td>{employee.job}</td>
+                <td>{employee.salary}</td>
                 <td>
                   <a href={`/employees/${employee.id}`} className="btn btn-primary">Edit</a>
                 </td>
