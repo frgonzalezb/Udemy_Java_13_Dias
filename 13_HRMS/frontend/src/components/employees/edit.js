@@ -3,7 +3,7 @@ import axios from 'axios';
 import { Link } from 'react-router-dom'
 import { useNavigate } from 'react-router-dom'
 
-export default function AddEmployee() {
+export default function EditEmployee() {
   let navigation = useNavigate();
 
   const [employee, setEmployee] = React.useState({
@@ -27,7 +27,7 @@ export default function AddEmployee() {
     <div className="container">
       {/* <Header /> */}
       <div className="container text-center" style={{ margin: "50px" }}>
-        <h1>Add Employee</h1>
+        <h1>Edit Employee</h1>
       </div>
 
       {/* Form */}

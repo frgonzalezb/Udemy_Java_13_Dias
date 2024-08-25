@@ -1,6 +1,7 @@
 import Navbar from "./components/common/navbar";
 import ListEmployees from "./components/employees/list";
 import AddEmployee from "./components/employees/add";
+import EditEmployee from "./components/employees/edit";
 
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 
@@ -10,8 +11,9 @@ function App() {
       <BrowserRouter>
         <Navbar/>
         <Routes>
-          <Route path="/" element={<ListEmployees/>} />
-          <Route path="/add-employee" element={<AddEmployee/>} />
+          <Route exact path="/" element={<ListEmployees/>} />
+          <Route exact path="/add-employee" element={<AddEmployee/>} />
+          <Route exact path="/edit-employee/:id" element={<EditEmployee/>} />
         </Routes>
       </BrowserRouter>
     </div>
