@@ -66,4 +66,18 @@ public class EmployeeController {
         logger.info("Employee updated successfully with ID: " + id);
         return ResponseEntity.ok(updatedEmployee);
     }
+
+    @PutMapping("/employees/{id}/deactivate")
+    public ResponseEntity<Employee> deactivateEmployee(@PathVariable("id") int id) {
+        logger.info("EmployeeController deactivateEmployee() called.");
+        Employee deactivatedEmployee = employeeService.getById((long) id);
+        if (deactivatedEmployee == null) {
+            logger.warn("Employee not found with ID: " + id);
+            throw new EmployeeNotFoundException("Employee not found with ID: " + id);
+        }
+        deactivatedEmployee.setActive(false);
+        employeeService.save(deactivatedEmployee);
+        logger.info("Employee deactivated successfully with ID: " + id);
+        return ResponseEntity.ok(deactivatedEmployee);
+    }
 }

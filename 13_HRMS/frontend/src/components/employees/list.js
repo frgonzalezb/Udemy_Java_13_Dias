@@ -15,6 +15,11 @@ export default function ListEmployees() {
     setEmployees(result.data);
   };
 
+  const deleteEmployee = async (id) => {
+    await axios.put(apiUrl + '/' + id + '/deactivate');
+    loadEmployees();
+  }
+
   return (
     <div className="container">
       {/* <Header /> */}
@@ -48,7 +53,8 @@ export default function ListEmployees() {
                 <td>{employee.job}</td>
                 <td>{employee.salary}</td>
                 <td>
-                  <a href={`/edit-employee/${employee.id}`} className="btn btn-primary">Edit</a>
+                  <a href={`/edit-employee/${employee.id}`} className="btn btn-primary me-3">Edit</a>
+                  <button onClick={() => deleteEmployee(employee.id)} type="button" className="btn btn-danger">Delete</button>
                 </td>
               </tr>
             ))
