@@ -49,4 +49,21 @@ public class EmployeeController {
         logger.info("Employee found with ID: " + id);
         return ResponseEntity.ok(employee);
     }
+
+    @PutMapping("/employees/{id}")
+    public ResponseEntity<Employee> updateEmployee(@PathVariable("id") int id, @RequestBody Employee employee) {
+        logger.info("EmployeeController updateEmployee() called.");
+        Employee updatedEmployee = employeeService.getById((long) id);
+        if (updatedEmployee == null) {
+            logger.warn("Employee not found with ID: " + id);
+            throw new EmployeeNotFoundException("Employee not found with ID: " + id);
+        }
+        updatedEmployee.setFirstName(employee.getFirstName());
+        updatedEmployee.setLastName(employee.getLastName());
+        updatedEmployee.setJob(employee.getJob());
+        updatedEmployee.setSalary(employee.getSalary());
+        employeeService.save(updatedEmployee);
+        logger.info("Employee updated successfully with ID: " + id);
+        return ResponseEntity.ok(updatedEmployee);
+    }
 }
