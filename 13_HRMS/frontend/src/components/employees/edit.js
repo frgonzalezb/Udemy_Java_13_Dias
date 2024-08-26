@@ -32,7 +32,7 @@ export default function EditEmployee() {
 
   const onSubmit = async (e) => {
     e.preventDefault();
-    await axios.post(apiUrl, employee);
+    await axios.put(apiUrl + '/' + id, employee);
     navigation('/');
   }
 
